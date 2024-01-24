@@ -3,9 +3,18 @@ import { useState } from "react";
 
 const FormularioTareas = () => {
 const [tarea, setTarea] = useState('');
+const [tareas, setTareas] = useState([]);
+
+const handleSubmit = (e)=>{
+  e.preventDefault();
+  setTareas([...tareas, tarea]);
+  setTarea('');
+}
+
+
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3 d-flex justify-content-between">
         <Form.Control
           type="text"
