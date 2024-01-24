@@ -1,0 +1,14 @@
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .mainPage {
+    flex-grow: 1;
+  }
+
+  body{
+    background: rgb(166,11,22);
+background: linear-gradient(90deg, rgba(166,11,22,1) 9%, rgba(113,20,31,1) 50%, rgba(166,11,22,1) 91%);
+  }
