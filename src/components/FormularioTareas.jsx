@@ -10,7 +10,7 @@ const FormularioTareas = () => {
           minLength={3}
           maxLength={50}
         />
-        <Button variant="primary" className="mx-2">
+        <Button variant="primary" className="mx-2" type='submit'>
           Agregar
         </Button>
       </Form.Group>
