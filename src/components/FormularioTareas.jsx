@@ -1,4 +1,3 @@
-
 import { Form, Button } from "react-bootstrap";
 
 const FormularioTareas = () => {
@@ -11,7 +10,9 @@ const FormularioTareas = () => {
           minLength={3}
           maxLength={50}
         />
-        <Button variant="success" className="mx-2">Agregar</Button>
+        <Button variant="success" className="mx-2">
+          Agregar
+        </Button>
       </Form.Group>
     </Form>
   );
