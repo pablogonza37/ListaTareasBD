@@ -1,4 +1,5 @@
 import { Form, Button } from "react-bootstrap";
+import ListaTareas from "./ListaTareas";
 import { useState } from "react";
 
 const FormularioTareas = () => {
@@ -14,6 +15,7 @@ const handleSubmit = (e)=>{
 
 
   return (
+    <section>
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3 d-flex justify-content-between">
         <Form.Control
@@ -29,6 +31,9 @@ const handleSubmit = (e)=>{
         </Button>
       </Form.Group>
     </Form>
+    <ListaTareas tareas={tareas}></ListaTareas> 
+    </section>
+    
   );
 };
 

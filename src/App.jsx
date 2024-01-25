@@ -11,7 +11,6 @@ function App() {
       <Container className="mainPage">
         <h1 className="text-center my-4 text-light display-3">Lista de Tareas</h1>
         <FormularioTareas></FormularioTareas>
-        <ListaTareas></ListaTareas>
       </Container>
       <Footer></Footer>
     </>
