@@ -28,6 +28,7 @@ const FormularioTareas = () => {
             maxLength={50}
             onChange={(e) => setTarea(e.target.value)}
             value={tarea}
+            required
           />
           <Button variant="primary" className="mx-2" type="submit">
             Agregar
