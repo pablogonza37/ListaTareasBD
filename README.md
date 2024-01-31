@@ -1,8 +1,31 @@
-# React + Vite
+# Lista de Tareas (React)
+Este proyecto es una aplicación web simple que muestra una lista de tareas. Permite al usuario ingresar una tarea en un campo de entrada y agregarla a la lista al presionar la tecla "Enter".
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## Funcionalidades
+Agregar Tareas: Los usuarios pueden agregar tareas ingresando texto en el campo de entrada y presionando la tecla "Enter".
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Eliminar Tareas: Cada tarea en la lista tiene un botón para eliminarla de la lista.
+
+## Instalación
+Para ejecutar esta aplicación en tu entorno local, sigue estos pasos:
+
+- Clona este repositorio en tu máquina local utilizando Git: git clone https://github.com/pablogonza37/EjercicioReact4_listaTareas.git
+- Navega al directorio del proyecto: cd lista-de-tareas
+- Instala las dependencias del proyecto utilizando npm o yarn: npm install o yarn install
+- Una vez completada la instalación de las dependencias, puedes iniciar la aplicación: npm start o yarn start
+
+Esto iniciará la aplicación en el modo de desarrollo.
+
+## Tecnologías Utilizadas
+- React.js
+- HTML
+- CSS
+- Estructura del Proyecto
+- Bootstrap
+- React-bootstrap
+
+
+
+## Contribución
+Si deseas contribuir a este proyecto, ¡siéntete libre de hacerlo! Puedes abrir problemas para reportar errores o sugerir mejoras, o enviar solicitudes de extracción con tus contribuciones.
