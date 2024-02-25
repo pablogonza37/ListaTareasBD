@@ -13,8 +13,14 @@ const FormularioTareas = () => {
   };
 
   const borrarTarea = (nombreTarea) => {
-    const tareasFiltradas = tareas.filter((tarea) => tarea !== nombreTarea);
-    setTareas(tareasFiltradas);
+    const indiceTarea = tareas.findIndex((tarea) => tarea === nombreTarea);
+    if (indiceTarea !== -1) {
+      const nuevasTareas = [
+        ...tareas.slice(0, indiceTarea),
+        ...tareas.slice(indiceTarea + 1),
+      ];
+      setTareas(nuevasTareas);
+    }
   };
 
   return (
@@ -22,6 +28,7 @@ const FormularioTareas = () => {
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3 d-flex justify-content-between">
           <Form.Control
+            id="tareaInput"
             type="text"
             placeholder="Agregar Tarea"
             minLength={3}
