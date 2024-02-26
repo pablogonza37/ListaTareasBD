@@ -15,9 +15,10 @@ const ItemTarea = ({ nombreTarea, borrarTarea }) => {
         label={nombreTarea}
         checked={checked}
         onChange={handleCheck}
+        className="overflow-auto"
       />
       <Button variant="danger" onClick={() => borrarTarea(nombreTarea)}>
-        Eliminar
+      <i className="bi bi-trash"></i>
       </Button>
     </ListGroup.Item>
   );

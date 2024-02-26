@@ -1,9 +1,9 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import Container from "react-bootstrap/Container";
 import FormularioTareas from "./components/FormularioTareas";
 import Footer from "./components/Footer";
-import ListaTareas from "./components/ListaTareas";
 
 function App() {
   return (
