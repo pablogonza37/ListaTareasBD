@@ -7,6 +7,10 @@ Agregar Tareas: Los usuarios pueden agregar tareas ingresando texto en el campo 
 
 Eliminar Tareas: Cada tarea en la lista tiene un botón para eliminarla de la lista.
 
+## Demo
+
+Puedes ver una demostración del proyecto en vivo en [Netlify](https://ejercicioreact4-listatareas-172e69.netlify.app/).
+
 ## Instalación
 Para ejecutar esta aplicación en tu entorno local, sigue estos pasos:
 
