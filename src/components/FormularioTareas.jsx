@@ -1,48 +1,114 @@
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import ListaTareas from "./ListaTareas";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  agregarTareasAPI,
+  borrarTareaAPI,
+  leerTareasAPI,
+} from "../helpers/queries";
+import { useForm } from "react-hook-form";
 
 const FormularioTareas = () => {
-  const [tarea, setTarea] = useState("");
   const [tareas, setTareas] = useState([]);
+  const [error, setError] = useState(null);
+  const [mostrarSpinner, setMostrarSpinner] = useState(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setTareas([...tareas, tarea]);
-    setTarea("");
-  };
+  useEffect(() => {
+    consultarAPI();
+  }, []);
 
-  const borrarTarea = (nombreTarea) => {
-    const indiceTarea = tareas.findIndex((tarea) => tarea === nombreTarea);
-    if (indiceTarea !== -1) {
-      const nuevasTareas = [
-        ...tareas.slice(0, indiceTarea),
-        ...tareas.slice(indiceTarea + 1),
-      ];
-      setTareas(nuevasTareas);
+  const consultarAPI = async () => {
+    try {
+      setMostrarSpinner(true);
+      const respuesta = await leerTareasAPI();
+      setTareas(respuesta);
+      setError(null);
+      setMostrarSpinner(false);
+    } catch (error) {
+      console.log(error);
+      setError("Error al cargar las tareas desde la API");
+      setMostrarSpinner(false);
     }
   };
 
+  const productoValidado = async (tarea) => {
+    try {   
+     const respuesta = await agregarTareasAPI(tarea);
+      const listaTareas = await leerTareasAPI()
+      setTareas(listaTareas)
+      setError(null);   
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const borrarTarea = async (id) => {
+    try {
+      const respuesta = await borrarTareaAPI(id);
+      const listaTareas = await leerTareasAPI()
+      setTareas(listaTareas)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const mostrarComponente = mostrarSpinner ? (
+    <div className="my-4 text-center">
+      <Spinner animation="border" variant="success" />
+    </div>
+  ) : (
+    <div>
+      {!error && tareas.length === 0 && (
+        <div className="alert alert-info mt-3">No hay tareas.</div>
+      )}
+      {tareas.length > 0 && (
+        <div>
+          <ListaTareas
+            tareas={tareas}
+            borrarTarea={borrarTarea}
+            error={error}
+          ></ListaTareas>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <section>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3 d-flex justify-content-between">
+      <Form onSubmit={handleSubmit(productoValidado)}>
+        <Form.Group className="d-flex justify-content-between">
           <Form.Control
             id="tareaInput"
             type="text"
             placeholder="Agregar Tarea"
-            minLength={3}
-            maxLength={50}
-            onChange={(e) => setTarea(e.target.value)}
-            value={tarea}
-            required
+            {...register("tarea", {
+              required: "El campo es obligatorio",
+              minLength: {
+                value: 3,
+                message: "La tarea debe tener como mínimo 3 caracteres",
+              },
+              maxLength: {
+                value: 50,
+                message: "La tarea debe tener como máximo 50 caracteres",
+              },
+            })}
           />
-          <Button variant="primary" className="mx-2" type="submit">
+
+          <Button variant="success" className="mx-2" type="submit">
             Agregar
           </Button>
         </Form.Group>
+        <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
       </Form>
-      <ListaTareas tareas={tareas} borrarTarea={borrarTarea}></ListaTareas>
+      {error && <div className="alert alert-info mt-3">{error}</div>}
+      {mostrarComponente}
     </section>
   );
 };

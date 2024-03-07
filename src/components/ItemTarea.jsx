@@ -1,23 +1,12 @@
-import React, { useState } from "react";
-import { Button, ListGroup, Form } from "react-bootstrap";
+import { Button, ListGroup, Form, FormLabel } from "react-bootstrap";
+import { borrarTareaAPI } from "../helpers/queries";
 
-const ItemTarea = ({ nombreTarea, borrarTarea }) => {
-  const [checked, setChecked] = useState(false);
-
-  const handleCheck = () => {
-    setChecked(!checked);
-  };
+const ItemTarea = ({ nombreTarea, idTarea, borrarTarea }) => {
 
   return (
     <ListGroup.Item className="d-flex justify-content-between">
-      <Form.Check
-        type="checkbox"
-        label={nombreTarea}
-        checked={checked}
-        onChange={handleCheck}
-        className="overflow-auto"
-      />
-      <Button variant="danger" onClick={() => borrarTarea(nombreTarea)}>
+      <FormLabel className="overflow-auto">{nombreTarea}</FormLabel>
+      <Button variant="danger" onClick={() => borrarTarea(idTarea)}>
       <i className="bi bi-trash"></i>
       </Button>
     </ListGroup.Item>

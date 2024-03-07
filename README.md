@@ -1,5 +1,6 @@
 # Lista de Tareas (React)
-Este proyecto es una aplicación web simple que muestra una lista de tareas. Permite al usuario ingresar una tarea en un campo de entrada y agregarla a la lista al presionar la tecla "Enter".
+
+Este proyecto es una aplicación web simple que muestra una lista de tareas que extrae desde una API. Permite al usuario ingresar una tarea en un campo de entrada y agregarla a la lista al presionar la tecla "Enter".
 
 
 ## Funcionalidades
