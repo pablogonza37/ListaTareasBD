@@ -38,23 +38,22 @@ const FormularioTareas = () => {
   };
 
   const productoValidado = async (tarea) => {
-    try {
-      setMostrarSpinner(true);
-      const respuesta = await agregarTareasAPI(tarea);
+    try {   
+     const respuesta = await agregarTareasAPI(tarea);
+      const listaTareas = await leerTareasAPI()
+      setTareas(listaTareas)
+      setError(null);   
       reset();
-      consultarAPI();
-      setError(null);
-      setMostrarSpinner(false);
     } catch (error) {
       console.log(error);
-      setMostrarSpinner(false);
     }
   };
 
   const borrarTarea = async (id) => {
     try {
       const respuesta = await borrarTareaAPI(id);
-      consultarAPI();
+      const listaTareas = await leerTareasAPI()
+      setTareas(listaTareas)
     } catch (error) {
       console.log(error);
     }
