@@ -1,6 +1,6 @@
 # Lista de Tareas (React)
 
-Este proyecto es una aplicación web simple que muestra una lista de tareas que extrae desde una API. Permite al usuario ingresar una tarea en un campo de entrada y agregarla a la lista al presionar la tecla "Enter".
+Este proyecto es una aplicación web simple que muestra una lista de tareas que extrae desde una base de datos. Permite al usuario ingresar una tarea en un campo de entrada y agregarla a la lista al presionar la tecla "Enter".
 
 
 ## Funcionalidades
@@ -10,7 +10,7 @@ Eliminar Tareas: Cada tarea en la lista tiene un botón para eliminarla de la li
 
 ## Demo
 
-Puedes ver una demostración del proyecto en vivo en [Netlify](https://ejercicioreact4-listatareas-172e69.netlify.app/).
+Puedes ver una demostración del proyecto en vivo en [Netlify](https://listatareas-db.netlify.app/).
 
 ## Instalación
 Para ejecutar esta aplicación en tu entorno local, sigue estos pasos:
