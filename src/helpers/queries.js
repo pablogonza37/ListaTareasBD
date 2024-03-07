@@ -11,4 +11,18 @@ export const leerTareasAPI = async () => {
     }
   };
   
-  
+  export const agregarTareasAPI = async (tareaNueva) => {
+    try {
+      const respuesta = await fetch(URL_Tareas, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tareaNueva),
+      });
+      console.log(respuesta);
+      return respuesta;
+    } catch (error) {
+      console.log(error);
+    }
+  };

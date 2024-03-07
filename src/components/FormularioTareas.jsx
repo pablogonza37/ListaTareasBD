@@ -1,12 +1,19 @@
 import { Form, Button } from "react-bootstrap";
 import ListaTareas from "./ListaTareas";
 import { useState, useEffect } from "react";
-import { leerTareasAPI } from "../helpers/queries";
+import { agregarTareasAPI, leerTareasAPI } from "../helpers/queries";
+import { useForm } from "react-hook-form";
 
 const FormularioTareas = () => {
+  const [tarea, setTarea] = useState("");
   const [tareas, setTareas] = useState([]);
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm();
 
-
+  
   useEffect(() => {
     consultarAPI();
   }, []);
@@ -22,24 +29,45 @@ const FormularioTareas = () => {
   };
 
 
+  const productoValidado = async (tarea) => {
+    console.log(tarea);
+    const respuesta = await agregarTareasAPI(tarea);
+    consultarAPI();
+  };
+
+
+
+
   return (
     <section>
-      <Form>
-        <Form.Group className="mb-3 d-flex justify-content-between">
+      <Form onSubmit={handleSubmit(productoValidado)}>
+        <Form.Group className="d-flex justify-content-between">
           <Form.Control
             id="tareaInput"
             type="text"
-            placeholder="Agregar Tarea"
-            minLength={3}
-            maxLength={50}
-            //onChange={(e) => setTarea(e.target.value)}
-            //value={tarea}
-            required
+            placeholder="Agregar Tarea"  
+            {...register("tarea", {
+              required: "El campo es obligatorio",
+              minLength: {
+                value: 3,
+                message:
+                  "La tarea debe tener como minimo 3 caracteres",
+              },
+              maxLength: {
+                value: 50,
+                message:
+                  "La tarea debe tener como maximo 50 caracteres",
+              },
+            })}
           />
+          
           <Button variant="primary" className="mx-2" type="submit">
             Agregar
           </Button>
         </Form.Group>
+        <Form.Text className="text-warning">
+            {errors.tarea?.message}
+          </Form.Text>
       </Form>
       <ListaTareas tareas={tareas}></ListaTareas>
     </section>

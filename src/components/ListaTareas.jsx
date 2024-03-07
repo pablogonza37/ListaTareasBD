@@ -3,7 +3,7 @@ import ItemTarea from "./ItemTarea";
 
 const ListaTareas = ({ tareas }) => {
   return (
-    <ListGroup>
+    <ListGroup className='my-4'>
       {tareas.map((tarea) => (
         <ItemTarea
           key={tarea.id}
