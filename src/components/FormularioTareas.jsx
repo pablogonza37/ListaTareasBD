@@ -5,16 +5,15 @@ import { agregarTareasAPI, borrarTareaAPI, leerTareasAPI } from "../helpers/quer
 import { useForm } from "react-hook-form";
 
 const FormularioTareas = () => {
-  const [tarea, setTarea] = useState("");
   const [tareas, setTareas] = useState([]);
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-      reset,
-    } = useForm();
+  const [error, setError] = useState(null); 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  
   useEffect(() => {
     consultarAPI();
   }, []);
@@ -23,17 +22,22 @@ const FormularioTareas = () => {
     try {
       const respuesta = await leerTareasAPI();
       setTareas(respuesta);
+      setError(null); 
     } catch (error) {
       console.log(error);
+      setError("Error al cargar las tareas desde la API"); 
     }
   };
 
   const productoValidado = async (tarea) => {
-    const respuesta = await agregarTareasAPI(tarea);
-    reset();
-    consultarAPI();
+    try {
+      const respuesta = await agregarTareasAPI(tarea);
+      reset();
+      consultarAPI();    
+    } catch (error) {
+      console.log(error); 
+    }
   };
-
 
   const borrarTarea = async (id) => {
     try {
@@ -46,6 +50,8 @@ const FormularioTareas = () => {
 
   return (
     <section>
+      {error && <div className="alert alert-info mt-3">{error}</div>}
+    
       <Form onSubmit={handleSubmit(productoValidado)}>
         <Form.Group className="d-flex justify-content-between">
           <Form.Control
@@ -57,12 +63,12 @@ const FormularioTareas = () => {
               minLength: {
                 value: 3,
                 message:
-                  "La tarea debe tener como minimo 3 caracteres",
+                  "La tarea debe tener como mínimo 3 caracteres",
               },
               maxLength: {
                 value: 50,
                 message:
-                  "La tarea debe tener como maximo 50 caracteres",
+                  "La tarea debe tener como máximo 50 caracteres",
               },
             })}
           />
@@ -75,7 +81,13 @@ const FormularioTareas = () => {
             {errors.tarea?.message}
           </Form.Text>
       </Form>
-      <ListaTareas tareas={tareas} borrarTarea={borrarTarea}></ListaTareas>
+      {!error && tareas.length === 0 && (
+        <div className="alert alert-info mt-3">No hay tareas.</div>
+      )}
+       {tareas.length > 0 && ( <div>
+      <ListaTareas tareas={tareas} borrarTarea={borrarTarea} error={error}></ListaTareas>
+      </div>
+      )}
     </section>
   );
 };

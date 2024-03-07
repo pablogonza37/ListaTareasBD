@@ -1,24 +1,3 @@
 {
-  "tareas": [
-    {
-      "id": "5572",
-      "tarea": "comer"
-    },
-    {
-      "id": "84c8",
-      "tarea": "correr"
-    },
-    {
-      "id": "f1bf",
-      "tarea": "limpiar"
-    },
-    {
-      "id": "dd66",
-      "tarea": "estudiar"
-    },
-    {
-      "id": "a601",
-      "tarea": "codear"
-    }
-  ]
+  "tareas": []
 }

@@ -2,6 +2,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import ItemTarea from "./ItemTarea";
 
 const ListaTareas = ({ tareas, borrarTarea }) => {
+
   return (
     <ListGroup className='my-4'>
       {tareas.map((tarea) => (

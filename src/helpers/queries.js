@@ -7,6 +7,7 @@ export const leerTareasAPI = async () => {
       return listaTareas;
     } catch (error) {
       console.log(error);
+      console.log(listaTareas)
     }
   };
   
