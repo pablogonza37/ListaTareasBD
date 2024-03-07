@@ -1,7 +1,7 @@
 import { Form, Button } from "react-bootstrap";
 import ListaTareas from "./ListaTareas";
 import { useState, useEffect } from "react";
-import { agregarTareasAPI, leerTareasAPI } from "../helpers/queries";
+import { agregarTareasAPI, borrarTareaAPI, leerTareasAPI } from "../helpers/queries";
 import { useForm } from "react-hook-form";
 
 const FormularioTareas = () => {
@@ -11,6 +11,7 @@ const FormularioTareas = () => {
       register,
       handleSubmit,
       formState: { errors },
+      reset,
     } = useForm();
 
   
@@ -21,22 +22,27 @@ const FormularioTareas = () => {
   const consultarAPI = async () => {
     try {
       const respuesta = await leerTareasAPI();
-      console.log(respuesta)
       setTareas(respuesta);
     } catch (error) {
       console.log(error);
     }
   };
 
-
   const productoValidado = async (tarea) => {
-    console.log(tarea);
     const respuesta = await agregarTareasAPI(tarea);
+    reset();
     consultarAPI();
   };
 
 
-
+  const borrarTarea = async (id) => {
+    try {
+      const respuesta = await borrarTareaAPI(id);
+      consultarAPI();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section>
@@ -61,7 +67,7 @@ const FormularioTareas = () => {
             })}
           />
           
-          <Button variant="primary" className="mx-2" type="submit">
+          <Button variant="success" className="mx-2" type="submit">
             Agregar
           </Button>
         </Form.Group>
@@ -69,7 +75,7 @@ const FormularioTareas = () => {
             {errors.tarea?.message}
           </Form.Text>
       </Form>
-      <ListaTareas tareas={tareas}></ListaTareas>
+      <ListaTareas tareas={tareas} borrarTarea={borrarTarea}></ListaTareas>
     </section>
   );
 };

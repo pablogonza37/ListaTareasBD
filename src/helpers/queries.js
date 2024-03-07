@@ -4,7 +4,6 @@ export const leerTareasAPI = async () => {
     try {
       const respuesta = await fetch(URL_Tareas);
       const listaTareas = await respuesta.json();
-      console.log(listaTareas);
       return listaTareas;
     } catch (error) {
       console.log(error);
@@ -20,9 +19,18 @@ export const leerTareasAPI = async () => {
         },
         body: JSON.stringify(tareaNueva),
       });
-      console.log(respuesta);
       return respuesta;
     } catch (error) {
       console.log(error);
     }
   };
+
+  export const borrarTareaAPI = async(id)=>{
+    try{
+      const respuesta = await fetch(`${URL_Tareas}/${id}`,{
+        method: "DELETE" });
+      return respuesta;
+    }catch(error){
+      console.log(error)
+    }
+  }
