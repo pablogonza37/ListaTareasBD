@@ -1,20 +1,16 @@
 {
   "tareas": [
     {
-      "tarea": "estudiar",
-      "id": "8535"
-    },
-    {
       "tarea": "jugar",
       "id": "8a1b"
     },
     {
-      "id": "1b5e",
-      "tarea": "comer"
-    },
-    {
       "tarea": "leer",
       "id": "681d"
+    },
+    {
+      "tarea": "jugar",
+      "id": "6908"
     }
   ]
 }
