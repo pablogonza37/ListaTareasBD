@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 import {
   agregarTareasAPI,
   borrarTareaAPI,
+  editarTareaAPI,
   leerTareasAPI,
+  obtenerTareaAPI,
 } from "../helpers/queries";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
+import Modal from 'react-bootstrap/Modal';
 
 const FormularioTareas = () => {
   const [tareas, setTareas] = useState([]);
@@ -17,7 +20,11 @@ const FormularioTareas = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
+  const [idTarea, setIdTarea] = useState();
+  const [editar, setEditar] = useState(false);
+  const [btnInput, setBtnInput] = useState('Agregar')
 
   useEffect(() => {
     consultarAPI();
@@ -38,6 +45,15 @@ const FormularioTareas = () => {
   };
 
   const productoValidado = async (tarea) => {
+    if(editar){  
+     const respuesta = await editarTareaAPI(tarea, idTarea); 
+     console.log(respuesta);
+     const listaTareas = await leerTareasAPI()
+      setTareas(listaTareas);
+      setEditar(false);
+      setBtnInput('Agregar');
+      reset();
+    }else{
     try {   
      const respuesta = await agregarTareasAPI(tarea);
       const listaTareas = await leerTareasAPI()
@@ -47,6 +63,7 @@ const FormularioTareas = () => {
     } catch (error) {
       console.log(error);
     }
+  }
   };
 
   const borrarTarea = async (id) => {
@@ -59,6 +76,22 @@ const FormularioTareas = () => {
     }
   };
 
+  const cargarDatosTarea = async (id) => {
+    setEditar(true);
+    setBtnInput('Guardar');
+    try {
+      const respuesta = await obtenerTareaAPI(id);
+      if (respuesta.status === 200) {
+        const tareaEncontrada = await respuesta.json();
+        setValue("tarea", tareaEncontrada.tarea);
+        setIdTarea(id)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+ 
   const mostrarComponente = mostrarSpinner ? (
     <div className="my-4 text-center">
       <Spinner animation="border" variant="success" />
@@ -74,6 +107,7 @@ const FormularioTareas = () => {
             tareas={tareas}
             borrarTarea={borrarTarea}
             error={error}
+            cargarDatosTarea={cargarDatosTarea}
           ></ListaTareas>
         </div>
       )}
@@ -102,7 +136,7 @@ const FormularioTareas = () => {
           />
 
           <Button variant="success" className="mx-2" type="submit">
-            Agregar
+            {btnInput}
           </Button>
         </Form.Group>
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>

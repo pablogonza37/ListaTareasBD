@@ -35,3 +35,28 @@ export const leerTareasAPI = async () => {
       console.log(error)
     }
   }
+
+  export const obtenerTareaAPI = async (id) => {
+  try {
+    const respuesta = await fetch(URL_Tareas + "/" + id);
+    return respuesta;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const editarTareaAPI = async (tareaEditada, id) => {
+  try {
+    const respuesta = await fetch(`${URL_Tareas}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tareaEditada),
+    });
+    return respuesta;
+  } catch (error) {
+    console.log(error);
+  }
+};
