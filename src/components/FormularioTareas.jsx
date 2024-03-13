@@ -3,12 +3,9 @@ import ListaTareas from "./ListaTareas";
 import { useState, useEffect } from "react";
 import {
   agregarTareasAPI,
-  borrarTareaAPI,
-  editarTareaAPI,
   leerTareasAPI,
-  obtenerTareaAPI,
 } from "../helpers/queries";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const FormularioTareas = () => {
@@ -22,9 +19,6 @@ const FormularioTareas = () => {
     reset,
     setValue,
   } = useForm();
-  const [idTarea, setIdTarea] = useState();
-  const [editar, setEditar] = useState(false);
-  const [btnInput, setBtnInput] = useState("Agregar");
 
   useEffect(() => {
     consultarAPI();
@@ -45,67 +39,30 @@ const FormularioTareas = () => {
   };
 
   const productoValidado = async (tarea) => {
-    if (editar) {
-      const respuesta = await editarTareaAPI(tarea, idTarea);
-      if (respuesta.status === 200) {
-        Swal.fire({
-          title: "Tarea modificado!",
-          text: `La tarea fue modificada correctamente`,
-          icon: "success",
-        });
+    try {
+      const respuesta = await agregarTareasAPI(tarea);
+      if (respuesta.status === 201) {
         const listaTareas = await leerTareasAPI();
         setTareas(listaTareas);
-        setEditar(false);
-        setBtnInput("Agregar");
+        setError(null);
         reset();
+        Swal.fire({
+          title: "Tarea creada!",
+          text: `La tarea fue creada correctamente`,
+          icon: "success",
+        });
       } else {
         Swal.fire({
           title: "Ocurrio un error!",
-          text: `La tarea no pudo ser modificada. Intente esta operacion en unos minutos`,
+          text: `La tarea no pudo ser creada. Intente esta opercion en unos minutos`,
           icon: "error",
         });
-      }
-    } else {
-      try {
-        const respuesta = await agregarTareasAPI(tarea);
-        if (respuesta.status === 201) {
-          const listaTareas = await leerTareasAPI();
-          setTareas(listaTareas);
-          setError(null);
-          reset();
-          Swal.fire({
-            title: "Tarea creada!",
-            text: `La tarea fue creada correctamente`,
-            icon: "success",
-          });
-        } else {
-          Swal.fire({
-            title: "Ocurrio un error!",
-            text: `La tarea no pudo ser creada. Intente esta opercion en unos minutos`,
-            icon: "error",
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-
-  const cargarDatosTarea = async (id) => {
-    setEditar(true);
-    setBtnInput("Guardar");
-    try {
-      const respuesta = await obtenerTareaAPI(id);
-      if (respuesta.status === 200) {
-        const tareaEncontrada = await respuesta.json();
-        setValue("tarea", tareaEncontrada.tarea);
-        setIdTarea(id);
       }
     } catch (error) {
       console.log(error);
     }
   };
+
 
   const mostrarComponente = mostrarSpinner ? (
     <div className="my-4 text-center">
@@ -121,7 +78,6 @@ const FormularioTareas = () => {
           <ListaTareas
             tareas={tareas}
             error={error}
-            cargarDatosTarea={cargarDatosTarea}
             setTareas={setTareas}
           ></ListaTareas>
         </div>
@@ -144,14 +100,14 @@ const FormularioTareas = () => {
                 message: "La tarea debe tener como mínimo 3 caracteres",
               },
               maxLength: {
-                value: 50,
-                message: "La tarea debe tener como máximo 50 caracteres",
+                value: 40,
+                message: "La tarea debe tener como máximo 40 caracteres",
               },
             })}
           />
 
           <Button variant="success" className="mx-2" type="submit">
-            {btnInput}
+            Agregar
           </Button>
         </Form.Group>
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>

@@ -1,13 +1,27 @@
 import React, { useState } from "react";
 import { Button, ListGroup, Form, FormLabel } from "react-bootstrap";
-import { borrarTareaAPI, leerTareasAPI } from "../helpers/queries";
+import {
+  borrarTareaAPI,
+  editarTareaAPI,
+  leerTareasAPI,
+  obtenerTareaAPI,
+} from "../helpers/queries";
 import Swal from "sweetalert2";
+import { set, useForm } from "react-hook-form";
 
-const ItemTarea = ({ nombreTarea, idTarea, cargarDatosTarea, setTareas }) => {
+const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
   const [menuVisible, setMenuVisible] = useState(false);
-  const [realizada, setRealizada] = useState(false); // Nuevo estado para la tarea realizada
-  const [editando, setEditando] = useState(false); // Nuevo estado para controlar si se está editando la tarea
-  const [nuevaTarea, setNuevaTarea] = useState(nombreTarea); // Nuevo estado para almacenar la nueva tarea
+  const [realizada, setRealizada] = useState(false);
+  const [editando, setEditando] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    reset,
+    trigger,
+  } = useForm();
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
@@ -15,9 +29,45 @@ const ItemTarea = ({ nombreTarea, idTarea, cargarDatosTarea, setTareas }) => {
 
   const toggleRealizada = () => {
     setRealizada(!realizada);
+    
   };
 
-  const handleGuardarEdicion = () => {
+  const cargarDatosTarea = async (id) => {
+    try {
+      const respuesta = await obtenerTareaAPI(id);
+      if (respuesta.status === 200) {
+        const tareaEncontrada = await respuesta.json();
+        setValue("tarea", tareaEncontrada.tarea);
+        trigger();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleGuardarEdicion = async (tarea) => {
+    setEditando(false);
+    try {
+      const respuesta = await editarTareaAPI(tarea, idTarea);
+      if (respuesta.status === 200) {
+        Swal.fire({
+          title: "Tarea modificado!",
+          text: `La tarea fue modificada correctamente`,
+          icon: "success",
+        });
+      }
+      const listaTareas = await leerTareasAPI();
+      setTareas(listaTareas);
+      reset();
+      setMenuVisible(false);
+    } catch (error) {
+      console.error("Error al editar tarea:", error);
+      Swal.fire({
+        title: "Ocurrió un error",
+        text: "La tarea no pudo ser editada. Por favor, inténtelo de nuevo más tarde.",
+        icon: "error",
+      });
+    }
   };
 
   const borrarTarea = async (id) => {
@@ -54,50 +104,62 @@ const ItemTarea = ({ nombreTarea, idTarea, cargarDatosTarea, setTareas }) => {
 
   return (
     <section className="mx-3">
-      <ListGroup.Item className="overflow-auto text-wrap rounded d-flex justify-content-between my-1">
-        {!editando ? (
-          <>
-            <Form.Check
-              type="checkbox"
-              label={nombreTarea}
-              checked={realizada}
-              onChange={toggleRealizada}
-            />
-          </>
-        ) : (
-          <Form.Control
-            type="text"
-            value={nuevaTarea}
-            onChange={(e) => setNuevaTarea(e.target.value)}
-          />
-        )}
-        <i className="bi bi-three-dots-vertical" onClick={toggleMenu}></i>
-      </ListGroup.Item>
-
-      {menuVisible && (
-        <div className="d-flex justify-content-end">
+      <Form onSubmit={handleSubmit(handleGuardarEdicion)}>
+        <ListGroup.Item className=" rounded d-flex justify-content-between my-1">
           {!editando ? (
-            <Button
-              variant="warning"
-              className="mx-1"
-              onClick={() => setEditando(true)}
-            >
-              <i className="bi bi-pencil-square"></i>
-            </Button>
+            <>
+              <Form.Check
+              className='overflow-auto text-wrap'
+                type="checkbox"
+                label={nombreTarea}
+                checked={realizada}
+                onChange={toggleRealizada}
+              />
+            </>
           ) : (
-            <Button
-              variant="success"
-              className="mx-1"
-              onClick={handleGuardarEdicion}
-            >
-              <i className="bi bi-check"></i>
-            </Button>
+            <Form.Control
+              type="text"
+              {...register("tarea", {
+                required: "El campo es obligatorio",
+                minLength: {
+                  value: 3,
+                  message: "La tarea debe tener como mínimo 3 caracteres",
+                },
+                maxLength: {
+                  value: 40,
+                  message: "La tarea debe tener como máximo 40 caracteres",
+                },
+              })}
+            />
           )}
-          <Button variant="danger" onClick={() => borrarTarea(idTarea)}>
-            <i className="bi bi-trash "></i>
-          </Button>
-        </div>
-      )}
+          <i className="bi bi-three-dots-vertical" onClick={toggleMenu}></i>
+        </ListGroup.Item>
+        <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
+
+        {menuVisible && (
+          <div className="d-flex justify-content-end">
+            {!editando ? (
+              <Button
+                variant="warning"
+                className="mx-1"
+                onClick={() => {
+                  setEditando(true);
+                  cargarDatosTarea(idTarea);
+                }}
+              >
+                <i className="bi bi-pencil-square"></i>
+              </Button>
+            ) : (
+              <Button variant="success" className="mx-1" type="submit">
+                <i className="bi bi-check"></i>
+              </Button>
+            )}
+            <Button variant="danger" onClick={() => borrarTarea(idTarea)}>
+              <i className="bi bi-trash "></i>
+            </Button>
+          </div>
+        )}
+      </Form>
     </section>
   );
 };
