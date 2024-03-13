@@ -11,6 +11,14 @@
     {
       "tarea": "jugar",
       "id": "6908"
+    },
+    {
+      "tarea": "limpiar",
+      "id": "da51"
+    },
+    {
+      "id": "18b2",
+      "tarea": "bañar el perro"
     }
   ]
 }

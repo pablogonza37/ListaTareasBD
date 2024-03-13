@@ -7,6 +7,9 @@
   .mainPage {
     flex-grow: 1;
   }
+  .list-group-item{
+   height: 45px;
+  }
   
 
   
