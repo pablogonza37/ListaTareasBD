@@ -1,10 +1,7 @@
 import { Form, Button, Spinner } from "react-bootstrap";
 import ListaTareas from "./ListaTareas";
 import { useState, useEffect } from "react";
-import {
-  agregarTareasAPI,
-  leerTareasAPI,
-} from "../helpers/queries";
+import { agregarTareasAPI, leerTareasAPI } from "../helpers/queries";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
@@ -17,7 +14,6 @@ const FormularioTareas = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
   } = useForm();
 
   useEffect(() => {
@@ -43,6 +39,7 @@ const FormularioTareas = () => {
       const respuesta = await agregarTareasAPI(tarea);
       if (respuesta.status === 201) {
         const listaTareas = await leerTareasAPI();
+
         setTareas(listaTareas);
         setError(null);
         reset();
@@ -62,7 +59,6 @@ const FormularioTareas = () => {
       console.log(error);
     }
   };
-
 
   const mostrarComponente = mostrarSpinner ? (
     <div className="my-4 text-center">

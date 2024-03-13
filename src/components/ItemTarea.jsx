@@ -7,11 +7,10 @@ import {
   obtenerTareaAPI,
 } from "../helpers/queries";
 import Swal from "sweetalert2";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
   const [menuVisible, setMenuVisible] = useState(false);
-  const [realizada, setRealizada] = useState(false);
   const [editando, setEditando] = useState(false);
 
   const {
@@ -28,8 +27,20 @@ const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
   };
 
   const toggleRealizada = () => {
-    setRealizada(!realizada);
-    
+    cargarDatosTareaRealizada(idTarea);
+    console.log(tareaRealizada);
+  };
+
+  const cargarDatosTareaRealizada = async (id) => {
+    try {
+      const respuesta = await obtenerTareaAPI(id);
+      if (respuesta.status === 200) {
+        const tareaEncontrada = await respuesta.json();
+        setTareaRealizada(tareaEncontrada.realizada);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const cargarDatosTarea = async (id) => {
@@ -103,19 +114,11 @@ const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
   };
 
   return (
-    <section className="mx-3">
+    <section className="">
       <Form onSubmit={handleSubmit(handleGuardarEdicion)}>
         <ListGroup.Item className=" rounded d-flex justify-content-between my-1">
           {!editando ? (
-            <>
-              <Form.Check
-              className='overflow-auto text-wrap'
-                type="checkbox"
-                label={nombreTarea}
-                checked={realizada}
-                onChange={toggleRealizada}
-              />
-            </>
+            <FormLabel className="overflow-auto">{nombreTarea}</FormLabel>
           ) : (
             <Form.Control
               type="text"
