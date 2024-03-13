@@ -91,37 +91,6 @@ const FormularioTareas = () => {
     }
   };
 
-  const borrarTarea = async (id) => {
-    Swal.fire({
-      title: "¿Estas seguro de eliminar la tarea?",
-      text: "No se puede revertir este proceso",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Borrar",
-      cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const respuesta = await borrarTareaAPI(id);
-        if (respuesta.status === 200) {
-          const listaTareas = await leerTareasAPI();
-          setTareas(listaTareas);
-          Swal.fire({
-            title: "Tarea eliminada",
-            text: `La tarea fue eliminada correctamente`,
-            icon: "success",
-          });
-        } else {
-          Swal.fire({
-            title: "Ocurrio un error",
-            text: `La tarea no pudo ser eliminada. Intente realizar esta operación en unos minutos`,
-            icon: "error",
-          });
-        }
-      }
-    });
-  };
 
   const cargarDatosTarea = async (id) => {
     setEditar(true);
@@ -151,9 +120,9 @@ const FormularioTareas = () => {
         <div>
           <ListaTareas
             tareas={tareas}
-            borrarTarea={borrarTarea}
             error={error}
             cargarDatosTarea={cargarDatosTarea}
+            setTareas={setTareas}
           ></ListaTareas>
         </div>
       )}
