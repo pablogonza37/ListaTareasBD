@@ -118,10 +118,11 @@ const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
       <Form onSubmit={handleSubmit(handleGuardarEdicion)}>
         <ListGroup.Item className=" rounded d-flex justify-content-between my-1">
           {!editando ? (
-            <FormLabel className="overflow-auto">{nombreTarea}</FormLabel>
+            <FormLabel className="overflow-auto lead">{nombreTarea}</FormLabel>
           ) : (
             <Form.Control
               type="text"
+              id='editarTarea'
               {...register("tarea", {
                 required: "El campo es obligatorio",
                 minLength: {
@@ -135,7 +136,7 @@ const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
               })}
             />
           )}
-          <i className="bi bi-three-dots-vertical" onClick={toggleMenu}></i>
+          <Button variant='' onClick={toggleMenu}><i className="bi bi-three-dots-vertical" ></i></Button>
         </ListGroup.Item>
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
 

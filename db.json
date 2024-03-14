@@ -1,21 +1,24 @@
 {
   "tareas": [
     {
-      "tarea": "comerii",
-      "id": "27ec"
-    },
-    {
-      "id": "bd77",
-      "tarea": "correr",
-      "realizada": false
+      "tarea": "comer",
+      "id": "bd77"
     },
     {
       "tarea": "correr",
       "id": "deee"
     },
     {
-      "tarea": "saltar",
+      "tarea": "estudiar",
       "id": "6993"
+    },
+    {
+      "id": "4b1e",
+      "tarea": "limpiar"
+    },
+    {
+      "id": "136d",
+      "tarea": "cocinar"
     }
   ]
 }
