@@ -7,8 +7,8 @@ const ListaTareas = ({ tareas, setTareas }) => {
     <ListGroup className='my-4'>
       {tareas.map((tarea) => (
         <ItemTarea
-          key={tarea.id}
-          idTarea={tarea.id}
+          key={tarea._id}
+          idTarea={tarea._id}
           nombreTarea={tarea.tarea}
           setTareas={setTareas}
         ></ItemTarea>
