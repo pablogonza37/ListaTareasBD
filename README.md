@@ -10,7 +10,7 @@ Eliminar Tareas: Cada tarea en la lista tiene un botón para eliminarla de la li
 
 ## Demo
 
-Puedes ver una demostración del proyecto en vivo en [Netlify](https://listatareas-db.netlify.app/).
+Puedes ver una demostración del proyecto en vivo en [Netlify](https://listatareasbd.netlify.app/).
 
 ## Instalación
 Para ejecutar esta aplicación en tu entorno local, sigue estos pasos:
