@@ -55,7 +55,6 @@ export const editarTareaAPI = async (tareaEditada, id) => {
       },
       body: JSON.stringify(tareaEditada),
     });
-    console.log(respuesta)
     return respuesta;
   } catch (error) {
     console.log(error);
