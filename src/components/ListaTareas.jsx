@@ -9,7 +9,7 @@ const ListaTareas = ({ tareas, setTareas }) => {
         <ItemTarea
           key={tarea._id}
           idTarea={tarea._id}
-          nombreTarea={tarea.tarea}
+          tareaAgregada={tarea}
           setTareas={setTareas}
         ></ItemTarea>
       ))}

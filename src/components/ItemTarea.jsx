@@ -9,7 +9,7 @@ import {
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 
-const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
+const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [editando, setEditando] = useState(false);
 
@@ -26,22 +26,6 @@ const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
     setMenuVisible(!menuVisible);
   };
 
-  const toggleRealizada = () => {
-    cargarDatosTareaRealizada(idTarea);
-    console.log(tareaRealizada);
-  };
-
-  const cargarDatosTareaRealizada = async (id) => {
-    try {
-      const respuesta = await obtenerTareaAPI(id);
-      if (respuesta.status === 200) {
-        const tareaEncontrada = await respuesta.json();
-        setTareaRealizada(tareaEncontrada.realizada);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const cargarDatosTarea = async (id) => {
     try {
@@ -56,7 +40,11 @@ const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
     }
   };
 
-  const handleGuardarEdicion = async (tarea) => {
+  const handleGuardarEdicion = async (tareaEditada) => {
+    const tarea ={
+      tarea: tareaEditada.tarea,
+      realizada: tareaAgregada.realizada
+    }
     setEditando(false);
     try {
       const respuesta = await editarTareaAPI(tarea, idTarea);
@@ -113,12 +101,37 @@ const ItemTarea = ({ nombreTarea, idTarea, setTareas }) => {
     });
   };
 
+  const tareaRealizada = async ()=>{
+    const tarea ={
+      tarea: tareaAgregada.tarea,
+      realizada: true
+    }
+    try {
+      const respuesta = await editarTareaAPI(tarea, idTarea);
+      if (respuesta.status === 200) {
+        Swal.fire({
+          title: "Tarea realizada!",
+          icon: "success",
+        });
+      }
+      const listaTareas = await leerTareasAPI();
+      setTareas(listaTareas);
+    } catch (error) {
+      console.error("Error al marcar como realizada", error);
+      Swal.fire({
+        title: "Ocurrió un error",
+        text: "La tarea no pudo ser marcada como realizada. Por favor, inténtelo de nuevo más tarde.",
+        icon: "error",
+      });
+    }
+  }
+
   return (
     <section className="">
       <Form onSubmit={handleSubmit(handleGuardarEdicion)}>
-        <ListGroup.Item className=" rounded d-flex justify-content-between my-1">
+        <ListGroup.Item className=" rounded d-flex justify-content-between my-1" >
           {!editando ? (
-            <FormLabel className="overflow-auto lead">{nombreTarea}</FormLabel>
+            <FormLabel className="overflow-auto lead" onClick={tareaRealizada}>{tareaAgregada.tarea}</FormLabel>
           ) : (
             <Form.Control
               type="text"
