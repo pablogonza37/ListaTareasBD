@@ -34,7 +34,11 @@ const FormularioTareas = () => {
     }
   };
 
-  const productoValidado = async (tarea) => {
+  const productoValidado = async (tareaNueva) => {
+    const tarea={
+      tarea: tareaNueva.tarea,
+      realizada: false,
+    }
     try {
       const respuesta = await agregarTareasAPI(tarea);
       if (respuesta.status === 201) {
