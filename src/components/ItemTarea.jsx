@@ -108,21 +108,8 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
     }
     try {
       const respuesta = await editarTareaAPI(tarea, idTarea);
-      if (respuesta.status === 200) {
-        Swal.fire({
-          title: "Tarea realizada!",
-          icon: "success",
-        });
-      }
-      const listaTareas = await leerTareasAPI();
-      setTareas(listaTareas);
     } catch (error) {
       console.error("Error al marcar como realizada", error);
-      Swal.fire({
-        title: "Ocurrió un error",
-        text: "La tarea no pudo ser marcada como realizada. Por favor, inténtelo de nuevo más tarde.",
-        icon: "error",
-      });
     }
   }
 
