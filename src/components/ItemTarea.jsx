@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [editando, setEditando] = useState(false);
+  const [tareaRealizada, setTareaRealizada] = useState(tareaAgregada.realizada);
 
   const {
     register,
@@ -23,9 +24,12 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
   } = useForm();
 
   const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
+    if (!tareaRealizada) {
+      setMenuVisible(!menuVisible);
+    }else{
+      handleTareaRealizada()
+    }
   };
-
 
   const cargarDatosTarea = async (id) => {
     try {
@@ -41,16 +45,16 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
   };
 
   const handleGuardarEdicion = async (tareaEditada) => {
-    const tarea ={
+    const tarea = {
       tarea: tareaEditada.tarea,
-      realizada: tareaAgregada.realizada
-    }
+      realizada: tareaAgregada.realizada,
+    };
     setEditando(false);
     try {
       const respuesta = await editarTareaAPI(tarea, idTarea);
       if (respuesta.status === 200) {
         Swal.fire({
-          title: "Tarea modificado!",
+          title: "Tarea modificada!",
           text: `La tarea fue modificada correctamente`,
           icon: "success",
         });
@@ -71,7 +75,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
 
   const borrarTarea = async (id) => {
     Swal.fire({
-      title: "¿Estas seguro de eliminar la tarea?",
+      title: "¿Estás seguro de eliminar la tarea?",
       text: "No se puede revertir este proceso",
       icon: "warning",
       showCancelButton: true,
@@ -92,7 +96,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
           });
         } else {
           Swal.fire({
-            title: "Ocurrio un error",
+            title: "Ocurrió un error",
             text: `La tarea no pudo ser eliminada. Intente realizar esta operación en unos minutos`,
             icon: "error",
           });
@@ -101,28 +105,52 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
     });
   };
 
-  const tareaRealizada = async ()=>{
-    const tarea ={
+  const handleTareaRealizada = async () => {
+    const nuevaRealizada = !tareaRealizada;
+    const tarea = {
       tarea: tareaAgregada.tarea,
-      realizada: true
-    }
+      realizada: nuevaRealizada,
+    };
     try {
       const respuesta = await editarTareaAPI(tarea, idTarea);
+      if (respuesta.status === 200) {
+        Swal.fire({
+          title: nuevaRealizada ? "¡Tarea realizada!" : "¡Tarea desmarcada!",
+          icon: "success",
+        });
+        setTareaRealizada(nuevaRealizada);
+      }
+      const listaTareas = await leerTareasAPI();
+      setTareas(listaTareas);
     } catch (error) {
-      console.error("Error al marcar como realizada", error);
+      console.error("Error al cambiar el estado de realizada", error);
+      Swal.fire({
+        title: "Ocurrió un error",
+        text: "El estado de la tarea no pudo ser cambiado. Por favor, inténtelo de nuevo más tarde.",
+        icon: "error",
+      });
     }
-  }
+  };
 
   return (
     <section className="">
       <Form onSubmit={handleSubmit(handleGuardarEdicion)}>
-        <ListGroup.Item className=" rounded d-flex justify-content-between my-1" >
+        <ListGroup.Item
+          className={`rounded d-flex justify-content-between my-1 ${
+            tareaRealizada ? "text-decoration-line-through" : ""
+          }`}
+        >
           {!editando ? (
-            <FormLabel className="overflow-auto lead" onClick={tareaRealizada}>{tareaAgregada.tarea}</FormLabel>
+            <FormLabel
+              className="overflow-auto lead"
+              onClick={handleTareaRealizada}
+            >
+              {tareaAgregada.tarea}
+            </FormLabel>
           ) : (
             <Form.Control
               type="text"
-              id='editarTarea'
+              id="editarTarea"
               {...register("tarea", {
                 required: "El campo es obligatorio",
                 minLength: {
@@ -136,7 +164,13 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
               })}
             />
           )}
-          <Button variant='' onClick={toggleMenu}><i className="bi bi-three-dots-vertical" ></i></Button>
+          <Button variant="" onClick={toggleMenu}>
+            {tareaRealizada ? (
+              <i className="bi bi-check-circle text-warning"></i>
+            ) : (
+              <i className="bi bi-three-dots-vertical"></i>
+            )}
+          </Button>
         </ListGroup.Item>
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
 
@@ -150,6 +184,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
                   setEditando(true);
                   cargarDatosTarea(idTarea);
                 }}
+                disabled={tareaRealizada}
               >
                 <i className="bi bi-pencil-square"></i>
               </Button>
@@ -158,7 +193,11 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
                 <i className="bi bi-check"></i>
               </Button>
             )}
-            <Button variant="danger" onClick={() => borrarTarea(idTarea)}>
+            <Button
+              variant="danger"
+              onClick={() => borrarTarea(idTarea)}
+              disabled={tareaRealizada}
+            >
               <i className="bi bi-trash "></i>
             </Button>
           </div>
