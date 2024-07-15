@@ -133,7 +133,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
   };
 
   return (
-    <section className="">
+    <section>
       <Form onSubmit={handleSubmit(handleGuardarEdicion)}>
         <ListGroup.Item
           className={`rounded d-flex justify-content-between my-1 ${

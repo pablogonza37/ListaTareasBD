@@ -86,10 +86,11 @@ const FormularioTareas = () => {
   );
 
   return (
-    <section>
+    <section className="mt-5">
       <Form onSubmit={handleSubmit(productoValidado)}>
         <Form.Group className="d-flex justify-content-between">
           <Form.Control
+          className="input"
             id="tareaInput"
             type="text"
             placeholder="Agregar Tarea"
@@ -106,13 +107,17 @@ const FormularioTareas = () => {
             })}
           />
 
-          <Button variant="success" className="mx-2" type="submit">
+         {/* <Button variant="success" className="mx-2" type="submit">
             Agregar
-          </Button>
+          </Button>*/}
+         <button className='button'> + Agregar
+         </button>
         </Form.Group>
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
       </Form>
-      {error && <div className="alert alert-info mt-3">{error}</div>}
+      <hr className="text-light"/>
+      {error && <div className="alert alert-info mt-3">{error}</div>
+      }
       {mostrarComponente}
     </section>
   );
