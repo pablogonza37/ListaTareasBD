@@ -7,6 +7,7 @@ import FormularioTareas from "./components/pages/tareas/FormularioTareas";
 import Footer from "./components/common/Footer";
 import Menu from "./components/common/Menu";
 import AdministrarUsuarios from "./components/pages/usuarios/AdministrarUsuarios";
+import RegistrarUsuario from "./components/pages/usuarios/RegistrarUsuario";
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       <Menu></Menu>
       <Container className="mainPage mt-5">
         
-      {/* <FormularioTareas></FormularioTareas>*/}
-        <AdministrarUsuarios></AdministrarUsuarios>
+      {/* <FormularioTareas></FormularioTareas>
+        <AdministrarUsuarios></AdministrarUsuarios>*/}
+        <RegistrarUsuario></RegistrarUsuario>
       </Container>
       <Footer></Footer>
       
