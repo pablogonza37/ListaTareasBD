@@ -3,9 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./App.css";
 import Container from "react-bootstrap/Container";
-import FormularioTareas from "./components/FormularioTareas";
-import Footer from "./components/Footer";
-import Menu from "./components/Menu";
+import FormularioTareas from "./components/pages/tareas/FormularioTareas";
+import Footer from "./components/common/Footer";
+import Menu from "./components/common/Menu";
+import AdministrarUsuarios from "./components/pages/usuarios/AdministrarUsuarios";
 
 function App() {
   return (
@@ -13,9 +14,11 @@ function App() {
       <Menu></Menu>
       <Container className="mainPage mt-5">
         
-        <FormularioTareas></FormularioTareas>
+      {/* <FormularioTareas></FormularioTareas>*/}
+        <AdministrarUsuarios></AdministrarUsuarios>
       </Container>
       <Footer></Footer>
+      
     </>
   );
 }

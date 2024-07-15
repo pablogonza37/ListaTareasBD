@@ -5,7 +5,7 @@ import {
   editarTareaAPI,
   leerTareasAPI,
   obtenerTareaAPI,
-} from "../helpers/queries";
+} from "../../../helpers/queries";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 
