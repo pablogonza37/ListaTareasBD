@@ -1,186 +1,185 @@
 #root {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: darkslategrey;
-  }
-  .mainPage {
-    flex-grow: 1;
-  }
-  .list-group-item{
-   height: auto;
-  }
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: darkslategrey;
+}
+.mainPage {
+  flex-grow: 1;
+}
+.list-group-item{
+ height: auto;
+}
 
-  #collapsible-nav-dropdown {
-    color: white;
-  }
-  
-  .custom-toggler.navbar-toggler {
-    border-color: #fff;
-  }
-  
-  .custom-toggler .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cpath stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-  }
+#collapsible-nav-dropdown {
+  color: white;
+}
+
+.custom-toggler.navbar-toggler {
+  border-color: #fff;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cpath stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
 
 
 
 /* btn iniciar sesion */
-  .sesion {
-    width: fit-content;
-    min-width: 100px;
-    height: 45px;
-    padding: 8px;
-    border-radius: 5px;
-    border: 2.5px solid #E0E1E4;
-    box-shadow: 0px 0px 20px -20px;
-    cursor: pointer;
-    background-color: white;
-    transition: all 0.2s ease-in-out 0ms;
-    user-select: none;
-    font-family: inherit;
-    font-weight: 300;
-    font-size: 16px;
-    text-transform: uppercase;
-  }
-  
-  .sesion:hover {
-    background-color: #F2F2F2;
-    box-shadow: 0px 0px 20px -18px;
-  }
-  
-  .sesion:active {
-    transform: scale(0.95);
-  }
-   /* btn adminstrar */
-   .admin {
-    font-size: 16px;
-    color: #e1e1e1;
-    font-family: inherit;
-    font-weight: 200;
-    cursor: pointer;
-    position: relative;
-    border: none;
-    background: none;
-    text-transform: uppercase;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: color;
-  }
-  
-  .admin:focus,
-  .admin:hover {
-    color: #fff;
-  }
-  
-  .admin:focus:after,
-  .admin:hover:after {
-    width: 100%;
-    left: 0%;
-  }
-  
-  .admin:after {
-    content: "";
-    pointer-events: none;
-    bottom: -2px;
-    left: 50%;
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    background-color: #fff;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: width, left;
-  }
+.sesion {
+  width: fit-content;
+  min-width: 100px;
+  height: 45px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 2.5px solid #E0E1E4;
+  box-shadow: 0px 0px 20px -20px;
+  cursor: pointer;
+  background-color: white;
+  transition: all 0.2s ease-in-out 0ms;
+  user-select: none;
+  font-family: inherit;
+  font-weight: 300;
+  font-size: 16px;
+  text-transform: uppercase;
+}
 
-  /* btn agregar tarea */
-  .button {
-    border-radius: 5px;
-    padding: 1em 2em;
-    background: linear-gradient(117deg, rgb(254, 145, 80), rgb(254, 100, 70));
-    border: none;
-    color: rgb(255, 255, 255);
-    font-size: 1rem;
-    text-transform: uppercase;
-    font-family: inherit;
-    font-weight: 500;
-    cursor: pointer;
-    transition: box-shadow 0.25s ease 0s;
-    letter-spacing: 0.08rem;
-    width: 200px;
-    margin-left: 10px;
-   }
-   
-   .button:hover,
-   .button:focus {
-    background: linear-gradient(117deg, rgb(248, 137, 73), rgb(248, 82, 49));
-    box-shadow: 0 0.1rem 0.8rem rgb(254, 100, 70);
-   }
+.sesion:hover {
+  background-color: #F2F2F2;
+  box-shadow: 0px 0px 20px -18px;
+}
 
-   /* input */
-   .input, .form-control {
-    border: none;
-    outline: none;
-    border-radius: 15px;
-    padding: 1em;
-    
-    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
-    transition: 300ms ease-in-out;
-  }
-  
-  .input:focus {
-    background-color: white;
-    transform: scale(1.017);
-    box-shadow: 13px 13px 50px #969696,
-               -13px -13px 50px #ffffff;
-  }
+.sesion:active {
+  transform: scale(0.95);
+}
+ /* btn adminstrar */
+ .admin {
+  font-size: 16px;
+  color: #e1e1e1;
+  font-family: inherit;
+  font-weight: 200;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+}
 
-  /* input tarea */
-  .inputTarea{
-    border: 1px solid black;
-  }
+.admin:focus,
+.admin:hover {
+  color: #fff;
+}
+
+.admin:focus:after,
+.admin:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.admin:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #fff;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}
+
+/* btn agregar tarea */
+.button {
+  border-radius: 5px;
+  padding: 1em 2em;
+  background: linear-gradient(117deg, rgb(254, 145, 80), rgb(254, 100, 70));
+  border: none;
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: box-shadow 0.25s ease 0s;
+  letter-spacing: 0.08rem;
+  width: 200px;
+  margin-left: 10px;
+ }
+ 
+ .button:hover,
+ .button:focus {
+  background: linear-gradient(117deg, rgb(248, 137, 73), rgb(248, 82, 49));
+  box-shadow: 0 0.1rem 0.8rem rgb(254, 100, 70);
+ }
+
+ /* input */
+ .inputTarea {
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  padding: 1em;
+  
+  box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
+  transition: 300ms ease-in-out;
+}
+
+.inputTarea:focus {
+  background-color: white;
+  transform: scale(1.017);
+  box-shadow: 13px 13px 50px #969696,
+             -13px -13px 50px #ffffff;
+}
+
+/* input tarea */
+.inputTarea{
+  border: 1px solid black;
+}
 
 
-  .error {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    width: 320px;
-    padding: 12px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    background: #EF665B;
-    border-radius: 8px;
-    box-shadow: 0px 0px 5px -3px #111;
-  }
-  
-  .error__icon {
-    width: 20px;
-    height: 20px;
-    transform: translateY(-2px);
-    margin-right: 8px;
-  }
-  
-  .error__icon path {
-    fill: #fff;
-  }
-  
-  .error__title {
-    font-weight: 500;
-    font-size: 14px;
-    color: #fff;
-  }
-  
-  .error__close {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin-left: auto;
-  }
-  
-  .error__close path {
-    fill: #fff;
-  }
+.error {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 320px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background: #EF665B;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px -3px #111;
+}
 
-  
-  
+.error__icon {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-2px);
+  margin-right: 8px;
+}
+
+.error__icon path {
+  fill: #fff;
+}
+
+.error__title {
+  font-weight: 500;
+  font-size: 14px;
+  color: #fff;
+}
+
+.error__close {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.error__close path {
+  fill: #fff;
+}
+
+/* form regidtro */

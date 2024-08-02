@@ -1,7 +1,7 @@
 import { Form, Button, Spinner } from "react-bootstrap";
 import ListaTareas from "./ListaTareas";
 import { useState, useEffect } from "react";
-import { agregarTareasAPI, leerTareasAPI } from "../../../helpers/queries";
+import { agregarTareasAPI, leerTareasAPI } from "../../../helpers/tarea.queries";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 

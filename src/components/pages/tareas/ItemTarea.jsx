@@ -5,7 +5,7 @@ import {
   editarTareaAPI,
   leerTareasAPI,
   obtenerTareaAPI,
-} from "../../../helpers/queries";
+} from "../../../helpers/tarea.queries";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 
@@ -34,6 +34,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
   const cargarDatosTarea = async (id) => {
     try {
       const respuesta = await obtenerTareaAPI(id);
+      console.log(respuesta.status)
       if (respuesta.status === 200) {
         const tareaEncontrada = await respuesta.json();
         setValue("tarea", tareaEncontrada.tarea);
@@ -86,7 +87,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const respuesta = await borrarTareaAPI(id);
-        if (respuesta.status === 200) {
+        if (respuesta.status == 200) {
           const listaTareas = await leerTareasAPI();
           setTareas(listaTareas);
           Swal.fire({
