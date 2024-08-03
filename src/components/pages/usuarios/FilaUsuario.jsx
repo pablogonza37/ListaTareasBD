@@ -1,12 +1,12 @@
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Badge } from "react-bootstrap";
 
-const FilaUsuario = () => {
+const FilaUsuario = ( {usuario} ) => {
     return (
-        <tr>
-            <td>pablo</td>
-            <td>pab.pg92@gmail.com</td>
-            <td>admin</td>
-            <td>true</td>
+        <tr className="text-center">
+            <td >{usuario.nombreUsuario}</td>
+            <td>{usuario.email}</td>
+            <td>{usuario.rol}</td>
+            <td><Badge bg="primary">{`${usuario.habilitado}`}</Badge></td>
             <td className="text-center">
               <Button className="btn btn-secondary">
                 <i className="bi bi-plus-circle"></i>

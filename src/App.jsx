@@ -17,10 +17,10 @@ function App() {
        <Menu></Menu>
       <Container className="mainPage mt-5">
         
-      {/*<FormularioTareas></FormularioTareas>
-       <AdministrarUsuarios></AdministrarUsuarios>*/}
-       {/*<InicioSesion></InicioSesion>*/}
-        <RegistrarUsuario></RegistrarUsuario>
+      {/*<FormularioTareas></FormularioTareas>*/}
+       <AdministrarUsuarios></AdministrarUsuarios>
+       {/*<InicioSesion></InicioSesion>
+        <RegistrarUsuario></RegistrarUsuario>*/}
       </Container>
       <Footer></Footer>
       
