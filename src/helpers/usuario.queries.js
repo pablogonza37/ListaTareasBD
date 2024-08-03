@@ -1,4 +1,6 @@
 const URL_Usuarios = import.meta.env.VITE_API_USUARIOS;
+const URL_Suspender = import.meta.env.VITE_API_SUSPENDER;
+const URL_Levantar = import.meta.env.VITE_API_LEVANTAR;
 
 export const crearUsuarioAPI = async (usuarioNuevo) => {
     try {
@@ -61,6 +63,36 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
           'Content-Type': 'application/json' 
           }
   
+      });
+      return resp;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  export const suspenderUsuarioAPI = async (id) => {
+    try {
+      const resp = await fetch(`${URL_Suspender}/${id}`, {
+        method: "PUT",
+        headers: {
+          'Authorization': `${token}`, 
+          "Content-Type": "application/json",
+        },
+      });
+      return resp;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  export const levantarSuspensionUsuarioAPI = async (id) => {
+    try {
+      const resp = await fetch(`${URL_Levantar}/${id}`, {
+        method: "PUT",
+        headers: {
+          'Authorization': `${token}`, 
+          "Content-Type": "application/json",
+        },
       });
       return resp;
     } catch (error) {
