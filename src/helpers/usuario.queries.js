@@ -15,7 +15,7 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
     }
   };
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NmFjMGI4NWMzNmRiMjg0YWU0MTM5MTQiLCJlbWFpbCI6ImFkbWluQHRhcmVhZmFjaWwuY29tIiwicm9sIjoiYWRtaW4iLCJoYWJpbGl0YWRvIjp0cnVlLCJpYXQiOjE3MjI2NDY2NzAsImV4cCI6MTcyMjY1NzQ3MH0.BZlVTc5dKrpln71fLF10PPwRT6fwHXgH8Hc1PtgDc34'
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NmFjMGI4NWMzNmRiMjg0YWU0MTM5MTQiLCJlbWFpbCI6ImFkbWluQHRhcmVhZmFjaWwuY29tIiwicm9sIjoiYWRtaW4iLCJoYWJpbGl0YWRvIjp0cnVlLCJpYXQiOjE3MjI2NTI0ODMsImV4cCI6MTcyMjY2MzI4M30._sgdUdIRaHLEwIoZB6UOzBOrrTPgWCviKGirYbkkR3c'
 
   export const leerUsuariosAPI = async () => {
     try {
@@ -45,6 +45,22 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
           'Authorization': `${token}`, 
           'Content-Type': 'application/json' 
         }
+      });
+      return resp;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  export const borrarUsuarioAPI = async (id) => {
+    try {
+      const resp = await fetch(`${URL_Usuarios}/${id}`, {
+        method: "DELETE",
+        headers: {
+          'Authorization': `${token}`, 
+          'Content-Type': 'application/json' 
+          }
+  
       });
       return resp;
     } catch (error) {

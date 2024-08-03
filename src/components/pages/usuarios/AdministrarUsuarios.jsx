@@ -44,7 +44,7 @@ const AdministrarUsuarios = () => {
         </thead>
         <tbody className="pt-3">
         {usuarios.map((usuario) => (
-              <FilaUsuario key={usuario._id} usuario={usuario}/>
+              <FilaUsuario key={usuario._id} usuario={usuario} setUsuarios={setUsuarios}/>
             ))}
         </tbody>
       </Table>
