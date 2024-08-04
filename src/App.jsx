@@ -42,8 +42,21 @@ function App() {
                 ></FormularioTareas>
               }
             ></Route>
-            {/* <AdministrarUsuarios></AdministrarUsuarios>*/}
-            {/* <RegistrarUsuario></RegistrarUsuario>*/}
+            <Route
+              exact
+              path="/administrador"
+              element={
+                <AdministrarUsuarios usuarioLogueado={usuarioLogueado}></AdministrarUsuarios>
+              }
+            ></Route>
+            <Route
+              exact
+              path="/registro"
+              element={
+                <RegistrarUsuario></RegistrarUsuario>
+              }
+            ></Route>
+            
             
           </Routes>
           </Container>

@@ -12,12 +12,14 @@ export const leerTareasAPI = async (token) => {
     
     if (!respuesta.ok) {
       throw new Error(`HTTP error! status: ${respuesta.status}`);
+      
     }
 
     const listaTareas = await respuesta.json();
     return listaTareas;
   } catch (error) {
     console.log('Error:', error);
+    return respuesta.status
   }
 };
   

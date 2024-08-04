@@ -2,7 +2,7 @@ import { Table, Button, Badge } from "react-bootstrap";
 import { borrarUsuarioAPI, leerUsuariosAPI, levantarSuspensionUsuarioAPI, suspenderUsuarioAPI } from "../../../helpers/usuario.queries";
 import Swal from "sweetalert2";
 
-const FilaUsuario = ( {usuario, setUsuarios} ) => {
+const FilaUsuario = ( {usuario, setUsuarios, token} ) => {
 
   const borrarUsuario = () => {
     Swal.fire({
@@ -16,7 +16,7 @@ const FilaUsuario = ( {usuario, setUsuarios} ) => {
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const respuesta = await borrarUsuarioAPI(usuario._id);
+        const respuesta = await borrarUsuarioAPI(usuario._id, token);
         if (respuesta.status === 200) {
           Swal.fire({
             title: "Usuario Eliminado",
@@ -24,7 +24,7 @@ const FilaUsuario = ( {usuario, setUsuarios} ) => {
             icon: "success",
           });
 
-          const listaUsuarios = await leerUsuariosAPI();
+          const listaUsuarios = await leerUsuariosAPI(token);
           setUsuarios(listaUsuarios);
         } else {
           Swal.fire({
@@ -52,9 +52,9 @@ const FilaUsuario = ( {usuario, setUsuarios} ) => {
       if (result.isConfirmed) {
         let respuesta;
         if (usuario.habilitado) {
-          respuesta = await suspenderUsuarioAPI(usuario._id); 
+          respuesta = await suspenderUsuarioAPI(usuario._id, token); 
         } else {
-          respuesta = await levantarSuspensionUsuarioAPI(usuario._id);
+          respuesta = await levantarSuspensionUsuarioAPI(usuario._id, token);
         }
         if (respuesta.status === 200) {
           Swal.fire({
@@ -63,7 +63,7 @@ const FilaUsuario = ( {usuario, setUsuarios} ) => {
             icon: "success",
           });
 
-          const listaUsuarios = await leerUsuariosAPI();
+          const listaUsuarios = await leerUsuariosAPI(token);
           setUsuarios(listaUsuarios);
         } else {
           Swal.fire({

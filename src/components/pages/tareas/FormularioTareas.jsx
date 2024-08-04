@@ -5,7 +5,7 @@ import { agregarTareasAPI, leerTareasAPI } from "../../../helpers/tarea.queries"
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-const FormularioTareas = ( {usuarioLogueado} ) => {
+const FormularioTareas = ( {usuarioLogueado, handleShowLoginModal} ) => {
   const [tareas, setTareas] = useState([]);
   const [error, setError] = useState(null);
   const [mostrarSpinner, setMostrarSpinner] = useState(true);
@@ -17,13 +17,18 @@ const FormularioTareas = ( {usuarioLogueado} ) => {
   } = useForm();
 
   useEffect(() => {
-    consultarAPI();
-  }, []);
+    if (!usuarioLogueado) {
+      handleShowLoginModal()
+      setMostrarSpinner(false);
+    }else{ consultarAPI();}
+   
+  }, [usuarioLogueado]);
 
   const consultarAPI = async () => {
     try {
       setMostrarSpinner(true);
       const respuesta = await leerTareasAPI(usuarioLogueado.token);
+      console.log(respuesta.Error)
       setTareas(respuesta);
       setError(null);
       setMostrarSpinner(false);
@@ -70,7 +75,11 @@ const FormularioTareas = ( {usuarioLogueado} ) => {
     </div>
   ) : (
     <div>
+      {!usuarioLogueado && (
+          <div className="alert alert-info mt-3">Por favor, inicia sesión para ver tus tareas.</div>
+        )}
       {!error && tareas.length === 0 && (
+        
         <div className="alert alert-info mt-3">No hay tareas.</div>
       )}
       {tareas.length > 0 && (

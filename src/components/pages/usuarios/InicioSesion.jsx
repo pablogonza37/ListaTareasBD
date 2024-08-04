@@ -5,8 +5,9 @@ import Swal from "sweetalert2";
 
 import { Link } from "react-router-dom";
 import { iniciarSesion } from "../../../helpers/usuario.queries";
+import { leerTareasAPI } from "../../../helpers/tarea.queries";
 
-const InicioSesion = ({ show, onHide, setUsuarioLogueado }) => {
+const InicioSesion = ({ show, onHide, setUsuarioLogueado, usuarioLogueado }) => {
   const {
     register,
     handleSubmit,
@@ -33,6 +34,7 @@ const InicioSesion = ({ show, onHide, setUsuarioLogueado }) => {
         text: `Bienvenido "${datos.nombreUsuario}"`,
         icon: "success",
       });
+      await leerTareasAPI(datos.token)
       onHide();
       setUsuarioLogueado(datos);
     } else {

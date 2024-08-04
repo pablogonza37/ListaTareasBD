@@ -1,9 +1,10 @@
-import { Navbar}  from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import { BiX } from "react-icons/bi";
 import InicioSesion from "../pages/usuarios/InicioSesion";
 import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Menu = ({
   usuarioLogueado,
@@ -12,7 +13,7 @@ const Menu = ({
   handleShowLoginModal,
   showLoginModal,
 }) => {
-  const [menuDesplegado, setMenuDesplegado] = useState(false); 
+  const [menuDesplegado, setMenuDesplegado] = useState(false);
 
   const toggleMenu = () => {
     setMenuDesplegado(!menuDesplegado);
@@ -23,7 +24,7 @@ const Menu = ({
     setUsuarioLogueado("");
     navegacion("/");
   };
-console.log(usuarioLogueado)
+
   return (
     <>
       <Navbar expand="lg" className="bg-dark shadow fixed-top text-white">
@@ -46,30 +47,27 @@ console.log(usuarioLogueado)
             <Nav className="ms-auto">
               {usuarioLogueado !== "" ? (
                 <>
-                {usuarioLogueado.rol === "admin" && (
-                  
-                    <Nav.Link href="#link">
+                  {usuarioLogueado.rol === "admin" && (
+                    <NavLink href="#link" to="/administrador">
                       <button className="admin me-3 mt-2">Administrar</button>
-                    </Nav.Link>
-                    
-                  
-                )}
-                
-                <Nav.Link href="#link" onClick={cerrarSesion}>
-                      <button className="sesion">Cerrar sesión</button>
-                    </Nav.Link>
-                    <Navbar.Text className="text-white mt-2 ms-2">
-                      Signed in as: <a href="#login">Mark Otto</a>
-                    </Navbar.Text>
-                    </>
+                    </NavLink>
+                  )}
+
+                  <NavLink href="#link" onClick={cerrarSesion}>
+                    <button className="sesion">Cerrar sesión</button>
+                  </NavLink>
+                  <Navbar.Text className="text-white mt-2 ms-2">
+                    Signed in as: <a href="#login">Mark Otto</a>
+                  </Navbar.Text>
+                </>
               ) : (
                 <>
-                  <Nav.Link href="#home">
+                  <NavLink href="#home" to="/registro">
                     <button className="admin me-3 mt-2">Registrarse</button>
-                  </Nav.Link>
-                  <Nav.Link href="#link" onClick={handleShowLoginModal}>
+                  </NavLink>
+                  <NavLink href="#link" onClick={handleShowLoginModal}>
                     <button className="sesion">iniciar sesión</button>
-                  </Nav.Link>
+                  </NavLink>
                 </>
               )}
             </Nav>
@@ -77,9 +75,12 @@ console.log(usuarioLogueado)
         </Container>
       </Navbar>
 
-      <InicioSesion show={showLoginModal}
+      <InicioSesion
+        show={showLoginModal}
         onHide={handleCloseLoginModal}
-        setUsuarioLogueado={setUsuarioLogueado}></InicioSesion>
+        setUsuarioLogueado={setUsuarioLogueado}
+        usuarioLogueado={usuarioLogueado}
+      ></InicioSesion>
     </>
   );
 };

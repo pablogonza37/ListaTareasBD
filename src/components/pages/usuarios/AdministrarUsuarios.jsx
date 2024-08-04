@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { leerUsuariosAPI } from "../../../helpers/usuario.queries";
 
-const AdministrarUsuarios = () => {
+const AdministrarUsuarios = ( {usuarioLogueado} ) => {
   const [usuarios, setUsuarios] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,7 +17,7 @@ const AdministrarUsuarios = () => {
   const consultarAPI = async () => {
     try {
       setIsLoading(true);
-      const resp = await leerUsuariosAPI();
+      const resp = await leerUsuariosAPI(usuarioLogueado.token);
         setUsuarios(resp);
         setIsLoading(false);
     } catch (error) {
@@ -44,7 +44,7 @@ const AdministrarUsuarios = () => {
         </thead>
         <tbody className="pt-3">
         {usuarios.map((usuario) => (
-              <FilaUsuario key={usuario._id} usuario={usuario} setUsuarios={setUsuarios}/>
+              <FilaUsuario key={usuario._id} usuario={usuario} setUsuarios={setUsuarios} token={usuarioLogueado.token}/>
             ))}
         </tbody>
       </Table>

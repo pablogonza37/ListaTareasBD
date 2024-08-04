@@ -59,11 +59,7 @@ const RegistrarUsuario = () => {
       className="modal show"
       style={{ display: "block", position: "initial" }}
     >
-      <Modal.Dialog>
-        <Modal.Header closeButton className="">
-          <Modal.Title>Registro</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="">
+     
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-4" controlId="formNombre">
               <Form.Control
@@ -142,8 +138,7 @@ const RegistrarUsuario = () => {
               </Button>
             </div>
           </Form>
-        </Modal.Body>
-      </Modal.Dialog>
+        
     </div>
   );
 };
