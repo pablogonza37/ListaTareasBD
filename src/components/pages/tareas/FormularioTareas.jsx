@@ -5,7 +5,7 @@ import { agregarTareasAPI, leerTareasAPI } from "../../../helpers/tarea.queries"
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-const FormularioTareas = () => {
+const FormularioTareas = ( {usuarioLogueado} ) => {
   const [tareas, setTareas] = useState([]);
   const [error, setError] = useState(null);
   const [mostrarSpinner, setMostrarSpinner] = useState(true);
@@ -23,7 +23,7 @@ const FormularioTareas = () => {
   const consultarAPI = async () => {
     try {
       setMostrarSpinner(true);
-      const respuesta = await leerTareasAPI();
+      const respuesta = await leerTareasAPI(usuarioLogueado.token);
       setTareas(respuesta);
       setError(null);
       setMostrarSpinner(false);
@@ -40,9 +40,9 @@ const FormularioTareas = () => {
       realizada: false,
     }
     try {
-      const respuesta = await agregarTareasAPI(tarea);
+      const respuesta = await agregarTareasAPI(tarea, usuarioLogueado.token);
       if (respuesta.status === 201) {
-        const listaTareas = await leerTareasAPI();
+        const listaTareas = await leerTareasAPI(usuarioLogueado.token);
 
         setTareas(listaTareas);
         setError(null);
@@ -79,6 +79,7 @@ const FormularioTareas = () => {
             tareas={tareas}
             error={error}
             setTareas={setTareas}
+            token={usuarioLogueado.token}
           ></ListaTareas>
         </div>
       )}
@@ -106,10 +107,6 @@ const FormularioTareas = () => {
               },
             })}
           />
-
-         {/* <Button variant="success" className="mx-2" type="submit">
-            Agregar
-          </Button>*/}
          <button className='button'> + Agregar
          </button>
         </Form.Group>

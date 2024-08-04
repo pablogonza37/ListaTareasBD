@@ -1,6 +1,6 @@
 const URL_Tareas = import.meta.env.VITE_API_TAREAS;
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NmFjMTZhOGEyNDZkYzMwODk5ZDNlMTYiLCJlbWFpbCI6InBhYi5wZzkyQGdtYWlsLmNvbSIsInJvbCI6InVzdWFyaW8iLCJoYWJpbGl0YWRvIjp0cnVlLCJpYXQiOjE3MjI1NjQyMDcsImV4cCI6MTcyMjU3NTAwN30.EcH8dNMtYdxj-9-YdPdRUe4I6MLaexzWDmQ0hCt76a8'; 
-export const leerTareasAPI = async () => {
+
+export const leerTareasAPI = async (token) => {
   try {
     const respuesta = await fetch(URL_Tareas, {
       method: 'GET', 
@@ -21,7 +21,7 @@ export const leerTareasAPI = async () => {
   }
 };
   
-  export const agregarTareasAPI = async (tareaNueva) => {
+  export const agregarTareasAPI = async (tareaNueva, token) => {
     try {
       const respuesta = await fetch(URL_Tareas, {
         method: "POST",
@@ -37,7 +37,7 @@ export const leerTareasAPI = async () => {
     }
   };
 
-  export const borrarTareaAPI = async (id) => {
+  export const borrarTareaAPI = async (id, token) => {
     try {
       const respuesta = await fetch(`${URL_Tareas}/${id}`, {
         method: 'DELETE', 
@@ -58,7 +58,7 @@ export const leerTareasAPI = async () => {
   };
   
 
-  export const obtenerTareaAPI = async (id) => {
+  export const obtenerTareaAPI = async (id, token) => {
   
     try {
       const respuesta = await fetch(`${URL_Tareas}/${id}`, {
@@ -81,7 +81,7 @@ export const leerTareasAPI = async () => {
   
 
 
-export const editarTareaAPI = async (tareaEditada, id) => {
+export const editarTareaAPI = async (tareaEditada, id, token) => {
   try {
     const respuesta = await fetch(`${URL_Tareas}/${id}`, {
       method: "PUT",

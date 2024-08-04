@@ -1,6 +1,7 @@
 const URL_Usuarios = import.meta.env.VITE_API_USUARIOS;
 const URL_Suspender = import.meta.env.VITE_API_SUSPENDER;
 const URL_Levantar = import.meta.env.VITE_API_LEVANTAR;
+const URL_InicioSesion= import.meta.env.VITE_API_INICIOSESION;
 
 export const crearUsuarioAPI = async (usuarioNuevo) => {
     try {
@@ -17,9 +18,7 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
     }
   };
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NmFjMGI4NWMzNmRiMjg0YWU0MTM5MTQiLCJlbWFpbCI6ImFkbWluQHRhcmVhZmFjaWwuY29tIiwicm9sIjoiYWRtaW4iLCJoYWJpbGl0YWRvIjp0cnVlLCJpYXQiOjE3MjI2NTI0ODMsImV4cCI6MTcyMjY2MzI4M30._sgdUdIRaHLEwIoZB6UOzBOrrTPgWCviKGirYbkkR3c'
-
-  export const leerUsuariosAPI = async () => {
+  export const leerUsuariosAPI = async (token) => {
     try {
       const resp = await fetch(URL_Usuarios, {
         method: 'GET', 
@@ -39,7 +38,7 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
     }
   };
 
-  export const obtenerUsuarioAPI = async (id) => {
+  export const obtenerUsuarioAPI = async (id, token) => {
     try {
       const resp = await fetch(`${URL_Usuarios}/${id}`, {
         method: 'GET', 
@@ -54,7 +53,7 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
     }
   };
 
-  export const borrarUsuarioAPI = async (id) => {
+  export const borrarUsuarioAPI = async (id, token) => {
     try {
       const resp = await fetch(`${URL_Usuarios}/${id}`, {
         method: "DELETE",
@@ -70,7 +69,7 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
     }
   };
 
-  export const suspenderUsuarioAPI = async (id) => {
+  export const suspenderUsuarioAPI = async (id, token) => {
     try {
       const resp = await fetch(`${URL_Suspender}/${id}`, {
         method: "PUT",
@@ -85,7 +84,7 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
     }
   };
   
-  export const levantarSuspensionUsuarioAPI = async (id) => {
+  export const levantarSuspensionUsuarioAPI = async (id, token) => {
     try {
       const resp = await fetch(`${URL_Levantar}/${id}`, {
         method: "PUT",
@@ -99,3 +98,19 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
       console.log(error);
     }
   };
+
+  export const iniciarSesion = async (usuario) =>{
+    try {
+      const respuesta = await fetch(URL_InicioSesion, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(usuario),
+      });
+      return  respuesta
+    } catch (error) {
+      console.log("errores en el inicio de sesion");
+      return;
+    }
+  }

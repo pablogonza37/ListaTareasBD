@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 
 
 import { Link } from "react-router-dom";
+import { iniciarSesion } from "../../../helpers/usuario.queries";
 
 const InicioSesion = ({ show, onHide, setUsuarioLogueado }) => {
   const {
@@ -12,18 +13,19 @@ const InicioSesion = ({ show, onHide, setUsuarioLogueado }) => {
     formState: { errors },
   } = useForm();
 
-  {/*const onSubmit = async (usuario) => {
-    const respuesta = await login(usuario);
+  const onSubmit = async (usuario) => {
+    const respuesta = await iniciarSesion(usuario);
 
     if (respuesta.status === 200) {
       const datos = await respuesta.json();
       sessionStorage.setItem(
-        "usuarioRollingRecetas",
+        "usuarioTareaFacil",
         JSON.stringify({
           email: datos.email,
           token: datos.token,
           rol: datos.rol,
           nombreUsuario: datos.nombreUsuario,
+          habilitado: datos.habilitado,
         })
       );
       Swal.fire({
@@ -40,7 +42,7 @@ const InicioSesion = ({ show, onHide, setUsuarioLogueado }) => {
         icon: "error",
       });
     }
-  };*/}
+  };
 
   const btnRegistrar = () => {
     onHide();
@@ -51,8 +53,8 @@ const InicioSesion = ({ show, onHide, setUsuarioLogueado }) => {
       <Modal.Header closeButton>
         <Modal.Title>Iniciar sesión</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <Form >
+      <Modal.Body className="px-5">
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
            
             <Form.Control
@@ -75,7 +77,7 @@ const InicioSesion = ({ show, onHide, setUsuarioLogueado }) => {
               <Form.Control
                 type="password"
                 placeholder="Contraseña"
-                {...register("password", {
+                {...register("contrasenia", {
                   required: "Contraseña es requerida",
                   minLength: {
                     value: 6,
@@ -84,7 +86,7 @@ const InicioSesion = ({ show, onHide, setUsuarioLogueado }) => {
                 })}
               />
               <Form.Text className="text-danger">
-                {errors.password?.message}
+                {errors.contrasenia?.message}
               </Form.Text>
             </Col>
           </Form.Group>

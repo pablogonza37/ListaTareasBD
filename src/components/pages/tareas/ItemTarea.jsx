@@ -9,7 +9,7 @@ import {
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 
-const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
+const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [editando, setEditando] = useState(false);
   const [tareaRealizada, setTareaRealizada] = useState(tareaAgregada.realizada);
@@ -33,7 +33,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
 
   const cargarDatosTarea = async (id) => {
     try {
-      const respuesta = await obtenerTareaAPI(id);
+      const respuesta = await obtenerTareaAPI(id, token);
       console.log(respuesta.status)
       if (respuesta.status === 200) {
         const tareaEncontrada = await respuesta.json();
@@ -52,7 +52,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
     };
     setEditando(false);
     try {
-      const respuesta = await editarTareaAPI(tarea, idTarea);
+      const respuesta = await editarTareaAPI(tarea, idTarea, token);
       if (respuesta.status === 200) {
         Swal.fire({
           title: "Tarea modificada!",
@@ -60,7 +60,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
           icon: "success",
         });
       }
-      const listaTareas = await leerTareasAPI();
+      const listaTareas = await leerTareasAPI(token);
       setTareas(listaTareas);
       reset();
       setMenuVisible(false);
@@ -74,7 +74,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
     }
   };
 
-  const borrarTarea = async (id) => {
+  const borrarTarea = async (id, tokenUsuario) => {
     Swal.fire({
       title: "¿Estás seguro de eliminar la tarea?",
       text: "No se puede revertir este proceso",
@@ -86,9 +86,9 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const respuesta = await borrarTareaAPI(id);
+        const respuesta = await borrarTareaAPI(id, tokenUsuario);
         if (respuesta.status == 200) {
-          const listaTareas = await leerTareasAPI();
+          const listaTareas = await leerTareasAPI(tokenUsuario);
           setTareas(listaTareas);
           Swal.fire({
             title: "Tarea eliminada",
@@ -113,7 +113,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
       realizada: nuevaRealizada,
     };
     try {
-      const respuesta = await editarTareaAPI(tarea, idTarea);
+      const respuesta = await editarTareaAPI(tarea, idTarea, token);
       if (respuesta.status === 200) {
         Swal.fire({
           title: nuevaRealizada ? "¡Tarea realizada!" : "¡Tarea desmarcada!",
@@ -121,7 +121,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
         });
         setTareaRealizada(nuevaRealizada);
       }
-      const listaTareas = await leerTareasAPI();
+      const listaTareas = await leerTareasAPI(token);
       setTareas(listaTareas);
     } catch (error) {
       console.error("Error al cambiar el estado de realizada", error);
@@ -196,7 +196,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
             )}
             <Button
               variant="danger"
-              onClick={() => borrarTarea(idTarea)}
+              onClick={() => borrarTarea(idTarea, token)}
               disabled={tareaRealizada}
             >
               <i className="bi bi-trash "></i>
