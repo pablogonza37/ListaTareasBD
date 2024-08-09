@@ -24,17 +24,13 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
   } = useForm();
 
   const toggleMenu = () => {
-    if (!tareaRealizada) {
-      setMenuVisible(!menuVisible);
-    }else{
-      handleTareaRealizada()
-    }
+    setMenuVisible(!menuVisible);
   };
 
   const cargarDatosTarea = async (id) => {
     try {
       const respuesta = await obtenerTareaAPI(id, token);
-      console.log(respuesta.status)
+      console.log(respuesta.status);
       if (respuesta.status === 200) {
         const tareaEncontrada = await respuesta.json();
         setValue("tarea", tareaEncontrada.tarea);
@@ -58,6 +54,8 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
           title: "Tarea modificada!",
           text: `La tarea fue modificada correctamente`,
           icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
         });
       }
       const listaTareas = await leerTareasAPI(token);
@@ -94,6 +92,8 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
             title: "Tarea eliminada",
             text: `La tarea fue eliminada correctamente`,
             icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
           });
         } else {
           Swal.fire({
@@ -142,10 +142,18 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
           }`}
         >
           {!editando ? (
-            <FormLabel
-              className="overflow-auto lead"
-              onClick={handleTareaRealizada}
-            >
+            <FormLabel className="overflow-auto lead pt-2">
+              {tareaRealizada ? (
+                <i
+                  className="bi bi-check-circle text-success me-3"
+                  onClick={handleTareaRealizada}
+                ></i>
+              ) : (
+                <i
+                  className="bi bi-circle me-3"
+                  onClick={handleTareaRealizada}
+                ></i>
+              )}
               {tareaAgregada.tarea}
             </FormLabel>
           ) : (
@@ -166,40 +174,35 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
             />
           )}
           <Button variant="" onClick={toggleMenu}>
-            {tareaRealizada ? (
-              <i className="bi bi-check-circle text-warning"></i>
-            ) : (
-              <i className="bi bi-three-dots-vertical"></i>
-            )}
+            <i className="bi bi-three-dots-vertical"></i>
           </Button>
         </ListGroup.Item>
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
 
         {menuVisible && (
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-end bg-white">
             {!editando ? (
-              <Button
-                variant="warning"
-                className="mx-1"
-                onClick={() => {
-                  setEditando(true);
-                  cargarDatosTarea(idTarea);
-                }}
-                disabled={tareaRealizada}
-              >
-                <i className="bi bi-pencil-square"></i>
-              </Button>
+              <>
+                <Button variant="">Info</Button>
+                <Button
+                  variant=""
+                  className="mx-1 border border-0"
+                  onClick={() => {
+                    setEditando(true);
+                    cargarDatosTarea(idTarea);
+                  }}
+                  disabled={tareaRealizada}
+                >
+                  Editar
+                </Button>
+              </>
             ) : (
-              <Button variant="success" className="mx-1" type="submit">
-                <i className="bi bi-check"></i>
+              <Button variant="" className="mx-1" type="submit">
+                Guardar
               </Button>
             )}
-            <Button
-              variant="danger"
-              onClick={() => borrarTarea(idTarea, token)}
-              disabled={tareaRealizada}
-            >
-              <i className="bi bi-trash "></i>
+            <Button variant="" onClick={() => borrarTarea(idTarea, token)}>
+              Eliminar
             </Button>
           </div>
         )}

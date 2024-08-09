@@ -1,4 +1,4 @@
-import { Form, Button, Modal } from "react-bootstrap";
+import { Form, Button, Modal, Row, Col } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
@@ -55,16 +55,17 @@ const RegistrarUsuario = () => {
   const contrasenia = watch("contrasenia", "");
 
   return (
-    <div
-      className="modal show"
-      style={{ display: "block", position: "initial" }}
-    >
-     
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group className="mb-4" controlId="formNombre">
+    
+      <Row className='my-5'>
+        <Col md={6} className='text-white mt-5'>
+        <img src="https://images.pexels.com/photos/920381/pexels-photo-920381.jpeg" className="img-fluid" alt="" />
+        </Col>
+        <Col md={6} className='text-white mt-4'><Form  onSubmit={handleSubmit(onSubmit)}>
+            <Form.Group className="mb-2" controlId="formNombre">
+            <Form.Label>Nombre de usuario:</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Nombre de usuario"
+                placeholder=""
                 {...register("nombreUsuario", {
                   required: "El nombre es obligatorio",
                   minLength: {
@@ -84,10 +85,11 @@ const RegistrarUsuario = () => {
               </Form.Text>
             </Form.Group>
 
-            <Form.Group className="mb-4" controlId="formEmail">
+            <Form.Group className="mb-2" controlId="formEmail">
+            <Form.Label>Email:</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Email"
+                placeholder=""
                 {...register("email", {
                   required: "El email es obligatorio",
                   pattern: {
@@ -101,10 +103,11 @@ const RegistrarUsuario = () => {
               </Form.Text>
             </Form.Group>
 
-            <Form.Group className="mb-4" controlId="formPassword">
+            <Form.Group className="mb-2" controlId="formPassword">
+            <Form.Label>Contraseña:</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Contraseña"
+                placeholder=""
                 {...register("contrasenia", {
                   required: "La contraseña es obligatoria",
                   minLength: {
@@ -119,9 +122,10 @@ const RegistrarUsuario = () => {
             </Form.Group>
 
             <Form.Group className="mb-4" controlId="formConfirmPassword">
+            <Form.Label>Confirmar Contraseña:</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Confirmar Contraseña"
+                placeholder=""
                 {...register("confirmarContraseña", {
                   validate: (value) =>
                     value === contrasenia || "Las contraseñas no coinciden",
@@ -137,9 +141,12 @@ const RegistrarUsuario = () => {
                 Registrar
               </Button>
             </div>
-          </Form>
+          </Form></Col>
+      </Row>
+     
+          
         
-    </div>
+  
   );
 };
 

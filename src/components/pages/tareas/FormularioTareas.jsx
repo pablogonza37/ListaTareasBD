@@ -1,11 +1,14 @@
 import { Form, Button, Spinner } from "react-bootstrap";
 import ListaTareas from "./ListaTareas";
 import { useState, useEffect } from "react";
-import { agregarTareasAPI, leerTareasAPI } from "../../../helpers/tarea.queries";
+import {
+  agregarTareasAPI,
+  leerTareasAPI,
+} from "../../../helpers/tarea.queries";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-const FormularioTareas = ( {usuarioLogueado, handleShowLoginModal} ) => {
+const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
   const [tareas, setTareas] = useState([]);
   const [error, setError] = useState(null);
   const [mostrarSpinner, setMostrarSpinner] = useState(true);
@@ -18,17 +21,18 @@ const FormularioTareas = ( {usuarioLogueado, handleShowLoginModal} ) => {
 
   useEffect(() => {
     if (!usuarioLogueado) {
-      handleShowLoginModal()
+      handleShowLoginModal();
       setMostrarSpinner(false);
-    }else{ consultarAPI();}
-   
+    } else {
+      consultarAPI();
+    }
   }, [usuarioLogueado]);
 
   const consultarAPI = async () => {
     try {
       setMostrarSpinner(true);
       const respuesta = await leerTareasAPI(usuarioLogueado.token);
-      console.log(respuesta.Error)
+      console.log(respuesta.Error);
       setTareas(respuesta);
       setError(null);
       setMostrarSpinner(false);
@@ -40,10 +44,10 @@ const FormularioTareas = ( {usuarioLogueado, handleShowLoginModal} ) => {
   };
 
   const productoValidado = async (tareaNueva) => {
-    const tarea={
+    const tarea = {
       tarea: tareaNueva.tarea,
       realizada: false,
-    }
+    };
     try {
       const respuesta = await agregarTareasAPI(tarea, usuarioLogueado.token);
       if (respuesta.status === 201) {
@@ -56,6 +60,8 @@ const FormularioTareas = ( {usuarioLogueado, handleShowLoginModal} ) => {
           title: "Tarea creada!",
           text: `La tarea fue creada correctamente`,
           icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
         });
       } else {
         Swal.fire({
@@ -76,10 +82,11 @@ const FormularioTareas = ( {usuarioLogueado, handleShowLoginModal} ) => {
   ) : (
     <div>
       {!usuarioLogueado && (
-          <div className="alert alert-info mt-3">Por favor, inicia sesión para ver tus tareas.</div>
-        )}
+        <div className="alert alert-info mt-3">
+          Por favor, inicia sesión para ver tus tareas.
+        </div>
+      )}
       {!error && tareas.length === 0 && (
-        
         <div className="alert alert-info mt-3">No hay tareas.</div>
       )}
       {tareas.length > 0 && (
@@ -100,7 +107,7 @@ const FormularioTareas = ( {usuarioLogueado, handleShowLoginModal} ) => {
       <Form onSubmit={handleSubmit(productoValidado)}>
         <Form.Group className="d-flex justify-content-between">
           <Form.Control
-          className="input"
+            className="input"
             id="tareaInput"
             type="text"
             placeholder="Agregar Tarea"
@@ -116,14 +123,12 @@ const FormularioTareas = ( {usuarioLogueado, handleShowLoginModal} ) => {
               },
             })}
           />
-         <button className='button'> + Agregar
-         </button>
+          <button className="button"> + Agregar</button>
         </Form.Group>
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
       </Form>
-      <hr className="text-light"/>
-      {error && <div className="alert alert-info mt-3">{error}</div>
-      }
+      <hr className="text-light" />
+      {error && <div className="alert alert-info mt-3">{error}</div>}
       {mostrarComponente}
     </section>
   );

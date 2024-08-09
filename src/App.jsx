@@ -28,15 +28,13 @@ function App() {
           handleCloseLoginModal={handleCloseLoginModal}
           showLoginModal={showLoginModal}
         ></Menu>
-        <Container  className='mainPage mt-5'>
-        <Routes>
-          
+        <Container className="mainPage mt-5">
+          <Routes>
             <Route
               exact
               path="/"
               element={
                 <FormularioTareas
-                
                   usuarioLogueado={usuarioLogueado}
                   handleShowLoginModal={handleShowLoginModal}
                 ></FormularioTareas>
@@ -46,22 +44,19 @@ function App() {
               exact
               path="/administrador"
               element={
-                <AdministrarUsuarios usuarioLogueado={usuarioLogueado}></AdministrarUsuarios>
+                <AdministrarUsuarios
+                  usuarioLogueado={usuarioLogueado}
+                ></AdministrarUsuarios>
               }
             ></Route>
             <Route
               exact
               path="/registro"
-              element={
-                <RegistrarUsuario></RegistrarUsuario>
-              }
+              element={<RegistrarUsuario></RegistrarUsuario>}
             ></Route>
-            
-            
           </Routes>
-          </Container>
-          <Footer></Footer>
-        
+        </Container>
+        <Footer></Footer>
       </BrowserRouter>
     </>
   );
