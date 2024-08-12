@@ -26,7 +26,7 @@ const PerfilUsuario = ({ usuarioLogueado, setUsuarioLogueado }) => {
 
   useEffect(() => {
     cargarDatosUsuario();
-  }, [show]);
+  }, [show, usuarioLogueado]);
 
   const cargarDatosUsuario = async () => {
     try {
@@ -121,15 +121,15 @@ const PerfilUsuario = ({ usuarioLogueado, setUsuarioLogueado }) => {
           setFotoPerfil(usuarioActualizado);
           const usuarioConFotoActualizada = {
             ...usuarioLogueado,
-            imagenPerfil: fotoPerfil,
+            imagenPerfil: usuarioActualizado.result.imagenPerfil,
           };
-         
+         setUsuarioLogueado(usuarioConFotoActualizada)
           sessionStorage.setItem(
             "usuarioTareaFacil",
             JSON.stringify(usuarioConFotoActualizada)
           );
          
-console.log(usuarioActualizado)
+console.log(usuarioActualizado.result.imagenPerfil)
           Swal.fire({
             title: "Foto de perfil actualizada!",
             text: `La foto de perfil fue actualizada correctamente`,
@@ -161,7 +161,7 @@ console.log(usuarioActualizado)
             <div className="d-flex justify-content-center mt-4 position-relative">
               <Card.Img
                 variant="top"
-                src={fotoPerfil}
+                src={usuarioLogueado.imagenPerfil}
                 className="imagenPerfil shadow"
               />
               <Button
