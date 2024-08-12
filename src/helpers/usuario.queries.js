@@ -2,6 +2,7 @@ const URL_Usuarios = import.meta.env.VITE_API_USUARIOS;
 const URL_Suspender = import.meta.env.VITE_API_SUSPENDER;
 const URL_Levantar = import.meta.env.VITE_API_LEVANTAR;
 const URL_InicioSesion= import.meta.env.VITE_API_INICIOSESION;
+const URL_FotoPerfil= import.meta.env.VITE_API_FOTOPERFIL;
 
 export const crearUsuarioAPI = async (usuarioNuevo) => {
     try {
@@ -131,23 +132,23 @@ export const crearUsuarioAPI = async (usuarioNuevo) => {
     }
   }
 
-  export const actualizarImagenAPI = async (formData, userId, token) => {
+  export const actualizarFotoPerfilAPI = async (formData, token) => {
     try {
-      const response = await fetch(`${API_URL}/usuarios/${userId}/imagen`, {
+      const response = await fetch(URL_FotoPerfil, {
         method: 'POST',
         headers: {
-          'Authorization': `${token}`, // Autorización basada en token
+          'Authorization': `${token}`, 
         },
-        body: formData, // Enviar el FormData que contiene la imagen
+        body: formData, 
       });
   
       if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`); // Lanzar un error si la respuesta no es OK
+        throw new Error(`Error: ${response.statusText}`); 
       }
   
-      return response; // Devolver la respuesta si todo está bien
+      return response; 
     } catch (error) {
-      console.error('Error al actualizar la imagen:', error); // Manejo de errores
-      throw error; // Volver a lanzar el error para que pueda ser manejado en el componente
+      console.error('Error al actualizar la imagen:', error); 
+      throw error; 
     }
   };

@@ -58,7 +58,7 @@ function App() {
             <Route
               exact
               path="/perfil"
-              element={<PerfilUsuario usuarioLogueado={usuarioLogueado}></PerfilUsuario>}
+              element={<PerfilUsuario usuarioLogueado={usuarioLogueado} setUsuarioLogueado={setUsuarioLogueado}></PerfilUsuario>}
             ></Route>
           </Routes>
         </Container>

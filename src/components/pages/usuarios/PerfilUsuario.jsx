@@ -8,17 +8,18 @@ import Swal from "sweetalert2";
 import {
   editarUsuarioAPI,
   obtenerUsuarioAPI,
+  actualizarFotoPerfilAPI,
 } from "../../../helpers/usuario.queries";
 
-const PerfilUsuario = ({ usuarioLogueado }) => {
+const PerfilUsuario = ({ usuarioLogueado, setUsuarioLogueado }) => {
   const [show, setShow] = useState(false);
   const [usuario, setUsuario] = useState({});
   const [editando, setEditando] = useState(false);
+  const [fotoPerfil, setFotoPerfil] = useState();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
     reset,
     setValue,
   } = useForm();
@@ -38,13 +39,13 @@ const PerfilUsuario = ({ usuarioLogueado }) => {
         const usuarioEncontrado = await respuesta.json();
 
         if (!editando) {
-            setUsuario(usuarioEncontrado);
+          setUsuario(usuarioEncontrado);
+          setFotoPerfil(usuarioEncontrado.imagenPerfil);
         } else {
-            setValue("nombreUsuario", usuarioEncontrado.nombreUsuario);
-            setValue("email", usuarioEncontrado.email);
-            setValue("genero", usuarioEncontrado.genero);
-            setValue("fechaNacimiento", usuarioEncontrado.fechaNacimiento);
-          
+          setValue("nombreUsuario", usuarioEncontrado.nombreUsuario);
+          setValue("email", usuarioEncontrado.email);
+          setValue("genero", usuarioEncontrado.genero);
+          setValue("fechaNacimiento", usuarioEncontrado.fechaNacimiento);
         }
       }
     } catch (error) {
@@ -70,12 +71,21 @@ const PerfilUsuario = ({ usuarioLogueado }) => {
         ...data,
         rol: usuarioLogueado.rol,
         imagenPerfil: usuarioLogueado.imagenPerfil,
+        id: usuarioLogueado.id,
+        habilitado: usuarioLogueado.habilitado,
+        token: usuarioLogueado.token,
       };
       setUsuario(usuarioActualizado);
+
+      sessionStorage.setItem(
+        "usuarioTareaFacil",
+        JSON.stringify(usuarioActualizado)
+      );
+      setUsuarioLogueado(usuarioActualizado);
     } else {
       Swal.fire({
         title: "Ocurrio un error!",
-        text: `El perfil no pudo ser modificado. Intente esta opercion en unos minutos`,
+        text: `El perfil no pudo ser modificado. Intente esta operacion en unos minutos`,
         icon: "error",
       });
     }
@@ -83,12 +93,66 @@ const PerfilUsuario = ({ usuarioLogueado }) => {
 
   const handleClose = () => {
     setShow(false);
-   
   };
+
   const handleOpen = () => {
     setEditando(true);
     setShow(true);
   };
+
+
+
+ 
+
+  const handleFotoPerfilChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("imagenPerfil", file);
+
+      try {
+        const respuesta = await actualizarFotoPerfilAPI(
+          formData,
+          usuarioLogueado.token
+        );
+
+        if (respuesta.status === 200) {
+          const usuarioActualizado = await respuesta.json();
+          setFotoPerfil(usuarioActualizado);
+          const usuarioConFotoActualizada = {
+            ...usuarioLogueado,
+            imagenPerfil: fotoPerfil,
+          };
+         
+          sessionStorage.setItem(
+            "usuarioTareaFacil",
+            JSON.stringify(usuarioConFotoActualizada)
+          );
+         
+console.log(usuarioActualizado)
+          Swal.fire({
+            title: "Foto de perfil actualizada!",
+            text: `La foto de perfil fue actualizada correctamente`,
+            icon: "success",
+          });
+        } else {
+          Swal.fire({
+            title: "Ocurrio un error!",
+            text: `La foto de perfil no pudo ser actualizada. Intente de nuevo más tarde.`,
+            icon: "error",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: "Ocurrio un error!",
+          text: `La foto de perfil no pudo ser actualizada. Intente de nuevo más tarde.`,
+          icon: "error",
+        });
+      }
+    }
+  };
+
   return (
     <>
       <Card className="my-5 p-4">
@@ -97,14 +161,26 @@ const PerfilUsuario = ({ usuarioLogueado }) => {
             <div className="d-flex justify-content-center mt-4 position-relative">
               <Card.Img
                 variant="top"
-                src={usuario.imagenPerfil}
-                className="imagenPerfil"
+                src={fotoPerfil}
+                className="imagenPerfil shadow"
               />
               <Button
-                variant="success"
-                className="position-absolute mb-1 bottom-0 end-60 "
+                variant="light"
+                className="position-absolute mb-1 bottom-0 end-60 btnEditarFotoPerfil"
               >
-                <i className="bi bi-plus-lg fotoPerfil"></i>
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleFotoPerfilChange}
+                  id="fotoPerfilInput"
+                />
+                <label
+                  htmlFor="fotoPerfilInput"
+                  className="d-inline-block mb-0"
+                >
+                  <i className="bi bi-pencil-square"></i>
+                </label>
               </Button>
             </div>
           </Col>
@@ -119,13 +195,13 @@ const PerfilUsuario = ({ usuarioLogueado }) => {
 
               <ListGroup className="list-group-flush">
                 <ListGroup.Item>
-                  Nombre de Usuario: {usuario.nombreUsuario}
+                 <strong>Nombre de Usuario: </strong>{usuario.nombreUsuario}
                 </ListGroup.Item>
-                <ListGroup.Item>Email: {usuario.email}</ListGroup.Item>
-                <ListGroup.Item>Rol: {usuario.rol}</ListGroup.Item>
-                <ListGroup.Item>Genero: {usuario.genero}</ListGroup.Item>
+                <ListGroup.Item><strong>Email: </strong>{usuario.email}</ListGroup.Item>
+                <ListGroup.Item><strong>Rol: </strong>{usuario.rol}</ListGroup.Item>
+                <ListGroup.Item><strong>Genero: </strong>{usuario.genero}</ListGroup.Item>
                 <ListGroup.Item>
-                  Fecha de nacimiento: {usuario.fechaNacimiento}
+                <strong>Fecha de nacimiento: </strong>{usuario.fechaNacimiento}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>
@@ -181,7 +257,7 @@ const PerfilUsuario = ({ usuarioLogueado }) => {
               </Form.Text>
             </Form.Group>
 
-            <Form.Group className="mb-2" controlId="formEmail">
+            <Form.Group className="mb-2" controlId="formGenero">
               <Form.Label>Genero:</Form.Label>
               <Form.Select
                 {...register("genero", {
@@ -199,13 +275,13 @@ const PerfilUsuario = ({ usuarioLogueado }) => {
               </Form.Text>
             </Form.Group>
 
-            <Form.Group className="mb-2" controlId="formEmail">
+            <Form.Group className="mb-2" controlId="formFechaNacimiento">
               <Form.Label>Fecha de Nacimiento:</Form.Label>
               <Form.Control
-                type="text"
+                type="date"
                 placeholder=""
                 {...register("fechaNacimiento", {
-                  required: "La fecha de nacimiento es obligatorio",
+                  required: "La fecha de nacimiento es obligatoria",
                 })}
               />
               <Form.Text className="text-danger">

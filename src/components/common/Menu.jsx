@@ -1,7 +1,6 @@
 import { Navbar } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
-import { BiX } from "react-icons/bi";
 import InicioSesion from "../pages/usuarios/InicioSesion";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ const Menu = ({
   showLoginModal,
 }) => {
   const [menuDesplegado, setMenuDesplegado] = useState(false);
+  
 
   const toggleMenu = () => {
     setMenuDesplegado(!menuDesplegado);
