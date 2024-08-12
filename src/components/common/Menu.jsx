@@ -58,8 +58,8 @@ const Menu = ({
                   )}
 
                   <img
-                    className="imgPerfil"
-                    src="https://static.vecteezy.com/system/resources/thumbnails/007/033/146/small/profile-icon-login-head-icon-vector.jpg"
+                    className="imgPerfil img-fluid"
+                    src={usuarioLogueado.imagenPerfil}
                     alt=""
                     width={50}
                   />
@@ -68,7 +68,7 @@ const Menu = ({
                     title={usuarioLogueado.nombreUsuario}
                     id="collapsible-nav-dropdown"
                   >
-                    <NavLink end className="nav-link">
+                    <NavLink end className="nav-link" to="/perfil">
                     <i className="bi bi-person-fill-gear"> Perfil</i>
                    
                     </NavLink>

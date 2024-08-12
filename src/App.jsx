@@ -9,6 +9,7 @@ import AdministrarUsuarios from "./components/pages/usuarios/AdministrarUsuarios
 import RegistrarUsuario from "./components/pages/usuarios/RegistrarUsuario";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PerfilUsuario from "./components/pages/usuarios/PerfilUsuario";
 
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -53,6 +54,11 @@ function App() {
               exact
               path="/registro"
               element={<RegistrarUsuario></RegistrarUsuario>}
+            ></Route>
+            <Route
+              exact
+              path="/perfil"
+              element={<PerfilUsuario usuarioLogueado={usuarioLogueado}></PerfilUsuario>}
             ></Route>
           </Routes>
         </Container>

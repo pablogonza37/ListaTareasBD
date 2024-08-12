@@ -2,12 +2,16 @@ import { Button, Card, Form, Col, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-
 import { Link } from "react-router-dom";
 import { iniciarSesion } from "../../../helpers/usuario.queries";
 import { leerTareasAPI } from "../../../helpers/tarea.queries";
 
-const InicioSesion = ({ show, onHide, setUsuarioLogueado, usuarioLogueado }) => {
+const InicioSesion = ({
+  show,
+  onHide,
+  setUsuarioLogueado,
+  usuarioLogueado,
+}) => {
   const {
     register,
     handleSubmit,
@@ -27,6 +31,10 @@ const InicioSesion = ({ show, onHide, setUsuarioLogueado, usuarioLogueado }) => 
           rol: datos.rol,
           nombreUsuario: datos.nombreUsuario,
           habilitado: datos.habilitado,
+          imagenPerfil: datos.imagenPerfil,
+          id: datos.id,
+          genero: datos.genero,
+          fechaNacimiento: datos.fechaNacimiento,
         })
       );
       Swal.fire({
@@ -34,7 +42,7 @@ const InicioSesion = ({ show, onHide, setUsuarioLogueado, usuarioLogueado }) => 
         text: `Bienvenido "${datos.nombreUsuario}"`,
         icon: "success",
       });
-      await leerTareasAPI(datos.token)
+      await leerTareasAPI(datos.token);
       onHide();
       setUsuarioLogueado(datos);
     } else {
@@ -58,7 +66,6 @@ const InicioSesion = ({ show, onHide, setUsuarioLogueado, usuarioLogueado }) => 
       <Modal.Body className="px-5">
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-           
             <Form.Control
               type="email"
               placeholder="Email"
