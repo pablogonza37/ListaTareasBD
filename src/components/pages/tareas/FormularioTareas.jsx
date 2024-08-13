@@ -32,7 +32,6 @@ const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
     try {
       setMostrarSpinner(true);
       const respuesta = await leerTareasAPI(usuarioLogueado.token);
-      console.log(respuesta.Error);
       setTareas(respuesta);
       setError(null);
       setMostrarSpinner(false);
@@ -43,7 +42,10 @@ const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
     }
   };
 
-  const productoValidado = async (tareaNueva) => {
+  const tareaValidada = async (tareaNueva) => {
+    if(!usuarioLogueado){
+      handleShowLoginModal()
+    }
     const tarea = {
       tarea: tareaNueva.tarea,
       realizada: false,
@@ -104,7 +106,9 @@ const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
 
   return (
     <section className="mt-5">
-      <Form onSubmit={handleSubmit(productoValidado)}>
+       
+      <Form onSubmit={handleSubmit(tareaValidada)}>
+      
         <Form.Group className="d-flex justify-content-between">
           <Form.Control
             className="input"
@@ -123,13 +127,23 @@ const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
               },
             })}
           />
-          <button className="button"> + Agregar</button>
+          <button className="button" > + Agregar</button>
         </Form.Group>
+        
+       
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
       </Form>
-      <hr className="text-light" />
-      {error && <div className="alert alert-info mt-3">{error}</div>}
-      {mostrarComponente}
+    
+       
+        <hr className="text-light" />
+        {error && <div className="alert alert-info mt-3">{error}</div>}
+        {mostrarComponente}
+       
+    
+      
+   
+      
+   
     </section>
   );
 };

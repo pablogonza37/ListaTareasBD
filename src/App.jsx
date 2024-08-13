@@ -5,11 +5,12 @@ import Container from "react-bootstrap/Container";
 import FormularioTareas from "./components/pages/tareas/FormularioTareas";
 import Footer from "./components/common/Footer";
 import Menu from "./components/common/Menu";
-import AdministrarUsuarios from "./components/pages/usuarios/AdministrarUsuarios";
 import RegistrarUsuario from "./components/pages/usuarios/RegistrarUsuario";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PerfilUsuario from "./components/pages/usuarios/PerfilUsuario";
+import RutasProtegidas from "./components/routes/RutasProtegidas";
+import RutasAdmin from "./components/routes/RutasAdmin";
 
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -31,25 +32,30 @@ function App() {
         ></Menu>
         <Container className="mainPage mt-5">
           <Routes>
-            <Route
+          <Route
               exact
               path="/"
               element={
-                <FormularioTareas
-                  usuarioLogueado={usuarioLogueado}
-                  handleShowLoginModal={handleShowLoginModal}
-                ></FormularioTareas>
+                usuarioLogueado ? (
+                  <FormularioTareas
+                    usuarioLogueado={usuarioLogueado}
+                    handleShowLoginModal={handleShowLoginModal}
+                  ></FormularioTareas>
+                ) : (
+                  
+                  <div className="alert alert-info mt-5">Por favor, inicia sesión para ver tus tareas.</div>
+                )
               }
             ></Route>
             <Route
-              exact
-              path="/administrador"
-              element={
-                <AdministrarUsuarios
-                  usuarioLogueado={usuarioLogueado}
-                ></AdministrarUsuarios>
-              }
-            ></Route>
+            exact
+            path="/administrar/*"
+            element={
+              <RutasProtegidas show={handleShowLoginModal}>
+                <RutasAdmin usuarioLogueado={usuarioLogueado}></RutasAdmin>
+              </RutasProtegidas>
+            }
+          ></Route>
             <Route
               exact
               path="/registro"

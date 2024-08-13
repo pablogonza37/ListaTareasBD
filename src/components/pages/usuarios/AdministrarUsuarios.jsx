@@ -14,6 +14,8 @@ const AdministrarUsuarios = ( {usuarioLogueado} ) => {
     consultarAPI();
   }, []);
 
+console.log(usuarioLogueado)
+
   const consultarAPI = async () => {
     try {
       setIsLoading(true);

@@ -46,11 +46,11 @@ const Menu = ({
             )}
           </Navbar.Toggle>
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav className="ms-auto ">
               {usuarioLogueado !== "" ? (
                 <>
                   {usuarioLogueado.rol === "admin" && (
-                    <NavLink href="#link" to="/administrador">
+                    <NavLink href="#link" to="/administrar">
                       <button className="admin me-3 mt-2 mb-3">
                         Administrar
                       </button>
@@ -85,7 +85,7 @@ const Menu = ({
                     </button>
                   </NavLink>
                   <NavLink href="#link" onClick={handleShowLoginModal}>
-                    <button className="sesion">iniciar sesión</button>
+                  <button className="buttonSesion">INICIAR SESIÓN</button>
                   </NavLink>
                 </>
               )}
