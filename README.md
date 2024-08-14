@@ -10,7 +10,7 @@ Eliminar Tareas: Cada tarea en la lista tiene un botón para eliminarla de la li
 
 ## Demo
 
-Puedes ver una demostración del proyecto en vivo en [Netlify](https://listatareasbd.netlify.app/).
+Puedes ver una demostración del proyecto en vivo en [Netlify](https://tarea-facil.netlify.app/).
 
 ## Tecnologías Utilizadas
 - React.js
