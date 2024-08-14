@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ListGroup, Form, FormLabel } from "react-bootstrap";
 import {
   borrarTareaAPI,
   editarTareaAPI,
   leerTareasAPI,
   obtenerTareaAPI,
-} from "../helpers/queries";
+} from "../../../helpers/tarea.queries";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 
-const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
+const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [editando, setEditando] = useState(false);
   const [tareaRealizada, setTareaRealizada] = useState(tareaAgregada.realizada);
@@ -23,21 +23,27 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
     trigger,
   } = useForm();
 
+
   const toggleMenu = () => {
-    if (!tareaRealizada) {
-      setMenuVisible(!menuVisible);
-    }else{
-      handleTareaRealizada()
-    }
+    setMenuVisible(!menuVisible);
   };
 
   const cargarDatosTarea = async (id) => {
     try {
-      const respuesta = await obtenerTareaAPI(id);
+      const respuesta = await obtenerTareaAPI(id, token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       if (respuesta.status === 200) {
         const tareaEncontrada = await respuesta.json();
         setValue("tarea", tareaEncontrada.tarea);
-        trigger();
+        
       }
     } catch (error) {
       console.log(error);
@@ -51,15 +57,35 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
     };
     setEditando(false);
     try {
-      const respuesta = await editarTareaAPI(tarea, idTarea);
+      const respuesta = await editarTareaAPI(tarea, idTarea, token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       if (respuesta.status === 200) {
         Swal.fire({
           title: "Tarea modificada!",
           text: `La tarea fue modificada correctamente`,
           icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
         });
       }
-      const listaTareas = await leerTareasAPI();
+      const listaTareas = await leerTareasAPI(token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       setTareas(listaTareas);
       reset();
       setMenuVisible(false);
@@ -73,7 +99,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
     }
   };
 
-  const borrarTarea = async (id) => {
+  const borrarTarea = async (id, tokenUsuario) => {
     Swal.fire({
       title: "¿Estás seguro de eliminar la tarea?",
       text: "No se puede revertir este proceso",
@@ -85,14 +111,25 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const respuesta = await borrarTareaAPI(id);
-        if (respuesta.status === 200) {
-          const listaTareas = await leerTareasAPI();
+        const respuesta = await borrarTareaAPI(id, tokenUsuario);
+        if (respuesta === 498) {
+          Swal.fire({
+            title: "Sesión expirada!",
+            text: `Por favor vuelva a iniciar sesión`,
+            icon: "error",
+          });
+          setUsuarioLogueado("");
+          navegacion("/");
+        }
+        if (respuesta.status == 200) {
+          const listaTareas = await leerTareasAPI(tokenUsuario);
           setTareas(listaTareas);
           Swal.fire({
             title: "Tarea eliminada",
             text: `La tarea fue eliminada correctamente`,
             icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
           });
         } else {
           Swal.fire({
@@ -112,7 +149,16 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
       realizada: nuevaRealizada,
     };
     try {
-      const respuesta = await editarTareaAPI(tarea, idTarea);
+      const respuesta = await editarTareaAPI(tarea, idTarea, token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       if (respuesta.status === 200) {
         Swal.fire({
           title: nuevaRealizada ? "¡Tarea realizada!" : "¡Tarea desmarcada!",
@@ -120,7 +166,16 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
         });
         setTareaRealizada(nuevaRealizada);
       }
-      const listaTareas = await leerTareasAPI();
+      const listaTareas = await leerTareasAPI(token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       setTareas(listaTareas);
     } catch (error) {
       console.error("Error al cambiar el estado de realizada", error);
@@ -133,7 +188,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
   };
 
   return (
-    <section className="">
+    <section>
       <Form onSubmit={handleSubmit(handleGuardarEdicion)}>
         <ListGroup.Item
           className={`rounded d-flex justify-content-between my-1 ${
@@ -141,10 +196,18 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
           }`}
         >
           {!editando ? (
-            <FormLabel
-              className="overflow-auto lead"
-              onClick={handleTareaRealizada}
-            >
+            <FormLabel className="overflow-auto lead pt-2">
+              {tareaRealizada ? (
+                <i
+                  className="bi bi-check-circle text-success me-3"
+                  onClick={handleTareaRealizada}
+                ></i>
+              ) : (
+                <i
+                  className="bi bi-circle me-3"
+                  onClick={handleTareaRealizada}
+                ></i>
+              )}
               {tareaAgregada.tarea}
             </FormLabel>
           ) : (
@@ -161,44 +224,41 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea }) => {
                   value: 40,
                   message: "La tarea debe tener como máximo 40 caracteres",
                 },
+                
               })}
+              autoFocus
             />
           )}
           <Button variant="" onClick={toggleMenu}>
-            {tareaRealizada ? (
-              <i className="bi bi-check-circle text-warning"></i>
-            ) : (
-              <i className="bi bi-three-dots-vertical"></i>
-            )}
+            <i className="bi bi-three-dots-vertical"></i>
           </Button>
         </ListGroup.Item>
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
 
         {menuVisible && (
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-end bg-white">
             {!editando ? (
-              <Button
-                variant="warning"
-                className="mx-1"
-                onClick={() => {
-                  setEditando(true);
-                  cargarDatosTarea(idTarea);
-                }}
-                disabled={tareaRealizada}
-              >
-                <i className="bi bi-pencil-square"></i>
-              </Button>
+              <>
+                <Button variant="">Info</Button>
+                <Button
+                  variant=""
+                  className="mx-1 border border-0"
+                  onClick={() => {
+                    setEditando(true);
+                    cargarDatosTarea(idTarea);
+                  }}
+                  disabled={tareaRealizada}
+                >
+                  Editar
+                </Button>
+              </>
             ) : (
-              <Button variant="success" className="mx-1" type="submit">
-                <i className="bi bi-check"></i>
+              <Button variant="" className="mx-1" type="submit">
+                Guardar
               </Button>
             )}
-            <Button
-              variant="danger"
-              onClick={() => borrarTarea(idTarea)}
-              disabled={tareaRealizada}
-            >
-              <i className="bi bi-trash "></i>
+            <Button variant="" onClick={() => borrarTarea(idTarea, token)}>
+              Eliminar
             </Button>
           </div>
         )}
