@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PerfilUsuario from "./components/pages/usuarios/PerfilUsuario";
 import RutasProtegidas from "./components/routes/RutasProtegidas";
 import RutasAdmin from "./components/routes/RutasAdmin";
+import InicioSesion from "./components/pages/usuarios/InicioSesion";
 
 function App() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -23,13 +24,15 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Menu
-          usuarioLogueado={usuarioLogueado}
-          setUsuarioLogueado={setUsuarioLogueado}
-          handleShowLoginModal={handleShowLoginModal}
-          handleCloseLoginModal={handleCloseLoginModal}
-          showLoginModal={showLoginModal}
-        ></Menu>
+      {usuarioLogueado && (
+          <Menu
+            usuarioLogueado={usuarioLogueado}
+            setUsuarioLogueado={setUsuarioLogueado}
+            handleShowLoginModal={handleShowLoginModal}
+            handleCloseLoginModal={handleCloseLoginModal}
+            showLoginModal={showLoginModal}
+          />
+        )}
         <Container className="mainPage mt-5">
           <Routes>
           <Route
@@ -40,10 +43,16 @@ function App() {
                   <FormularioTareas
                     usuarioLogueado={usuarioLogueado}
                     handleShowLoginModal={handleShowLoginModal}
+                    setUsuarioLogueado={setUsuarioLogueado}
                   ></FormularioTareas>
                 ) : (
+                  <InicioSesion
+                  show={showLoginModal}
+                  onHide={handleCloseLoginModal}
+                  setUsuarioLogueado={setUsuarioLogueado}
+                  usuarioLogueado={usuarioLogueado}
+                ></InicioSesion>
                   
-                  <div className="alert alert-info mt-5">Por favor, inicia sesión para ver tus tareas.</div>
                 )
               }
             ></Route>

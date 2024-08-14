@@ -9,7 +9,10 @@ export const leerTareasAPI = async (token) => {
         'Content-Type': 'application/json' 
       }
     });
-    
+    if (respuesta.status === 498){
+      return respuesta.status
+    }
+
     if (!respuesta.ok) {
       throw new Error(`HTTP error! status: ${respuesta.status}`);
       
@@ -33,6 +36,9 @@ export const leerTareasAPI = async (token) => {
         },
         body: JSON.stringify(tareaNueva),
       });
+      if (respuesta.status === 498){
+        return respuesta.status
+      }
       return respuesta;
     } catch (error) {
       console.log(error);
@@ -48,6 +54,10 @@ export const leerTareasAPI = async (token) => {
           'Content-Type': 'application/json' 
         }
       });
+
+      if (respuesta.status === 498){
+        return respuesta.status
+      }
   
       if (!respuesta.ok) {
         throw new Error(`HTTP error! status: ${respuesta.status}`);
@@ -70,6 +80,10 @@ export const leerTareasAPI = async (token) => {
           'Content-Type': 'application/json' 
         }
       });
+
+      if (respuesta.status === 498){
+        return respuesta.status
+      }
       
       if (!respuesta.ok) {
         throw new Error(`HTTP error! status: ${respuesta.status}`);
@@ -93,6 +107,10 @@ export const editarTareaAPI = async (tareaEditada, id, token) => {
       },
       body: JSON.stringify(tareaEditada),
     });
+
+    if (respuesta.status === 498){
+      return respuesta.status
+    }
     return respuesta;
   } catch (error) {
     console.log(error);

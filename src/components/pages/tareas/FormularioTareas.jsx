@@ -7,11 +7,17 @@ import {
 } from "../../../helpers/tarea.queries";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
+const FormularioTareas = ({
+  usuarioLogueado,
+  handleShowLoginModal,
+  setUsuarioLogueado,
+}) => {
   const [tareas, setTareas] = useState([]);
   const [error, setError] = useState(null);
   const [mostrarSpinner, setMostrarSpinner] = useState(true);
+  const navegacion = useNavigate();
   const {
     register,
     handleSubmit,
@@ -32,6 +38,15 @@ const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
     try {
       setMostrarSpinner(true);
       const respuesta = await leerTareasAPI(usuarioLogueado.token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       setTareas(respuesta);
       setError(null);
       setMostrarSpinner(false);
@@ -43,8 +58,8 @@ const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
   };
 
   const tareaValidada = async (tareaNueva) => {
-    if(!usuarioLogueado){
-      handleShowLoginModal()
+    if (!usuarioLogueado) {
+      navegacion("/");
     }
     const tarea = {
       tarea: tareaNueva.tarea,
@@ -52,6 +67,15 @@ const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
     };
     try {
       const respuesta = await agregarTareasAPI(tarea, usuarioLogueado.token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       if (respuesta.status === 201) {
         const listaTareas = await leerTareasAPI(usuarioLogueado.token);
 
@@ -106,10 +130,8 @@ const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
 
   return (
     <section className="mt-5">
-       
       <Form onSubmit={handleSubmit(tareaValidada)}>
-      
-        <Form.Group className="d-flex justify-content-between">
+        <Form.Group className="d-flex flex-column flex-lg-row">
           <Form.Control
             className="input"
             id="tareaInput"
@@ -127,23 +149,17 @@ const FormularioTareas = ({ usuarioLogueado, handleShowLoginModal }) => {
               },
             })}
           />
-          <button className="button" > + Agregar</button>
+          <div className="d-flex justify-content-center">
+            <button className="button mt-3 m-lg-0 ms-lg-2"> + Agregar</button>
+          </div>
         </Form.Group>
-        
-       
+
         <Form.Text className="text-warning">{errors.tarea?.message}</Form.Text>
       </Form>
-    
-       
-        <hr className="text-light" />
-        {error && <div className="alert alert-info mt-3">{error}</div>}
-        {mostrarComponente}
-       
-    
-      
-   
-      
-   
+
+      <hr className="text-light" />
+      {error && <div className="alert alert-info mt-3">{error}</div>}
+      {mostrarComponente}
     </section>
   );
 };

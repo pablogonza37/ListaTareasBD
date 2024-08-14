@@ -1,17 +1,20 @@
-import { Form, Button, Modal, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-
-import React, { useState } from "react";
+import React from "react";
 import { crearUsuarioAPI } from "../../../helpers/usuario.queries";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "../../../assets/logoTareaFacil.png";
 
 const RegistrarUsuario = () => {
+  const navegacion = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
     reset,
+    
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -19,8 +22,10 @@ const RegistrarUsuario = () => {
       nombreUsuario: data.nombreUsuario,
       email: data.email,
       contrasenia: data.contrasenia,
+      genero: data.genero,
+      fechaNacimiento: data.fechaNacimiento,
     };
-    
+
     const respuesta = await crearUsuarioAPI(usuario);
     if (respuesta.status === 400) {
       Swal.fire({
@@ -38,10 +43,7 @@ const RegistrarUsuario = () => {
         icon: "success",
       });
       reset();
-      if (!usuarioLogueado) {
-        navegacion("/login");
-      }
-      
+      navegacion("/");
     } else {
       Swal.fire({
         title: "Ocurrió un error",
@@ -49,20 +51,21 @@ const RegistrarUsuario = () => {
         icon: "error",
       });
     }
-  }
-  
+  };
 
   const contrasenia = watch("contrasenia", "");
 
   return (
-    
-      <Row className='my-5'>
-        <Col md={6} className='text-white mt-5'>
-        <img src="https://images.pexels.com/photos/920381/pexels-photo-920381.jpeg" className="img-fluid" alt="" />
-        </Col>
-        <Col md={6} className='text-white mt-4'><Form  onSubmit={handleSubmit(onSubmit)}>
+    <>
+      <div className="d-flex justify-content-center mb-5">
+        <img src={Logo} alt="" width={150} />
+      </div>
+
+      <section className="d-flex justify-content-center mb-5">
+        <Form onSubmit={handleSubmit(onSubmit)} className="form">
+          <span className="input-span">
             <Form.Group className="mb-2" controlId="formNombre">
-            <Form.Label>Nombre de usuario:</Form.Label>
+              <Form.Label className="label">Nombre de usuario:</Form.Label>
               <Form.Control
                 type="text"
                 placeholder=""
@@ -84,9 +87,11 @@ const RegistrarUsuario = () => {
                 {errors.nombreUsuario && errors.nombreUsuario.message}
               </Form.Text>
             </Form.Group>
+          </span>
 
+          <span className="input-span">
             <Form.Group className="mb-2" controlId="formEmail">
-            <Form.Label>Email:</Form.Label>
+              <Form.Label className="label">Email:</Form.Label>
               <Form.Control
                 type="email"
                 placeholder=""
@@ -102,9 +107,47 @@ const RegistrarUsuario = () => {
                 {errors.email && errors.email.message}
               </Form.Text>
             </Form.Group>
+          </span>
 
+          <span className="input-span">
+            <Form.Group className="mb-2" controlId="formGenero">
+              <Form.Label className="label">Genero:</Form.Label>
+              <Form.Select
+                type="select"
+                {...register("genero", {
+                  required: "El genero es obligatorio",
+                })}
+              >
+                <option value="">Selecciona un género</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="no_binario">No Binario</option>
+                <option value="otro">Otro</option>
+              </Form.Select>
+              <Form.Text className="text-danger">
+                {errors.genero && errors.genero.message}
+              </Form.Text>
+            </Form.Group>
+          </span>
+
+          <span className="input-span">
+            <Form.Group className="mb-2" controlId="formFechaNacimiento">
+              <Form.Label className="label">Fecha de Nacimiento:</Form.Label>
+              <Form.Control
+                type="date"
+                placeholder=""
+                {...register("fechaNacimiento", {
+                  required: "La fecha de nacimiento es obligatoria",
+                })}
+              />
+              <Form.Text className="text-danger">
+                {errors.fechaNacimiento && errors.fechaNacimiento.message}
+              </Form.Text>
+            </Form.Group>
+          </span>
+          <span className="input-span">
             <Form.Group className="mb-2" controlId="formPassword">
-            <Form.Label>Contraseña:</Form.Label>
+              <Form.Label className="label">Contraseña:</Form.Label>
               <Form.Control
                 type="password"
                 placeholder=""
@@ -120,33 +163,35 @@ const RegistrarUsuario = () => {
                 {errors.contrasenia && errors.contrasenia.message}
               </Form.Text>
             </Form.Group>
-
+          </span>
+          <span className="input-span">
             <Form.Group className="mb-4" controlId="formConfirmPassword">
-            <Form.Label>Confirmar Contraseña:</Form.Label>
+              <Form.Label className="label">Confirmar Contraseña:</Form.Label>
               <Form.Control
                 type="password"
                 placeholder=""
-                {...register("confirmarContraseña", {
+                {...register("confirmarContrasenia", {
+                  required: "La contraseña es obligatoria",
                   validate: (value) =>
                     value === contrasenia || "Las contraseñas no coinciden",
                 })}
               />
               <Form.Text className="text-danger">
-                {errors.confirmarContraseña &&
-                  errors.confirmarContraseña.message}
+                {errors.confirmarContrasenia &&
+                  errors.confirmarContrasenia.message}
               </Form.Text>
             </Form.Group>
-            <div>
-              <Button type="submit" variant="success">
-                Registrar
-              </Button>
-            </div>
-          </Form></Col>
-      </Row>
-     
-          
-        
-  
+          </span>
+
+          <Button type="submit" className="submit" variant="success">
+            REGISTRAR
+          </Button>
+          <Link className=" submit btn btn-light" to="/" variant="success">
+            INICIAR SESION
+          </Link>
+        </Form>
+      </section>
+    </>
   );
 };
 

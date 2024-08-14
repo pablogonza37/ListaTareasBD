@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ListGroup, Form, FormLabel } from "react-bootstrap";
 import {
   borrarTareaAPI,
@@ -23,6 +23,7 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
     trigger,
   } = useForm();
 
+
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
@@ -30,11 +31,19 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
   const cargarDatosTarea = async (id) => {
     try {
       const respuesta = await obtenerTareaAPI(id, token);
-      console.log(respuesta.status);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       if (respuesta.status === 200) {
         const tareaEncontrada = await respuesta.json();
         setValue("tarea", tareaEncontrada.tarea);
-        trigger();
+        
       }
     } catch (error) {
       console.log(error);
@@ -49,6 +58,15 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
     setEditando(false);
     try {
       const respuesta = await editarTareaAPI(tarea, idTarea, token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       if (respuesta.status === 200) {
         Swal.fire({
           title: "Tarea modificada!",
@@ -59,6 +77,15 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
         });
       }
       const listaTareas = await leerTareasAPI(token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       setTareas(listaTareas);
       reset();
       setMenuVisible(false);
@@ -85,6 +112,15 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const respuesta = await borrarTareaAPI(id, tokenUsuario);
+        if (respuesta === 498) {
+          Swal.fire({
+            title: "Sesión expirada!",
+            text: `Por favor vuelva a iniciar sesión`,
+            icon: "error",
+          });
+          setUsuarioLogueado("");
+          navegacion("/");
+        }
         if (respuesta.status == 200) {
           const listaTareas = await leerTareasAPI(tokenUsuario);
           setTareas(listaTareas);
@@ -114,6 +150,15 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
     };
     try {
       const respuesta = await editarTareaAPI(tarea, idTarea, token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       if (respuesta.status === 200) {
         Swal.fire({
           title: nuevaRealizada ? "¡Tarea realizada!" : "¡Tarea desmarcada!",
@@ -122,6 +167,15 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
         setTareaRealizada(nuevaRealizada);
       }
       const listaTareas = await leerTareasAPI(token);
+      if (respuesta === 498) {
+        Swal.fire({
+          title: "Sesión expirada!",
+          text: `Por favor vuelva a iniciar sesión`,
+          icon: "error",
+        });
+        setUsuarioLogueado("");
+        navegacion("/");
+      }
       setTareas(listaTareas);
     } catch (error) {
       console.error("Error al cambiar el estado de realizada", error);
@@ -170,7 +224,9 @@ const ItemTarea = ({ tareaAgregada, setTareas, idTarea, token }) => {
                   value: 40,
                   message: "La tarea debe tener como máximo 40 caracteres",
                 },
+                
               })}
+              autoFocus
             />
           )}
           <Button variant="" onClick={toggleMenu}>

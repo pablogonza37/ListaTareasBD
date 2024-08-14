@@ -5,6 +5,7 @@ import InicioSesion from "../pages/usuarios/InicioSesion";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Logo from "../../assets/logoTareaFacil.png"
 
 const Menu = ({
   usuarioLogueado,
@@ -31,7 +32,7 @@ const Menu = ({
       <Navbar expand="lg" className="bg-dark shadow fixed-top text-white">
         <Container className="d-flex justify-content-between">
           <NavLink to="/" className="text-white text-decoration-none">
-            <i className="bi bi-card-list me-2 "></i>Tarea Facil
+            <img src={Logo} alt="" width={80} />
           </NavLink>
 
           <Navbar.Toggle
@@ -46,19 +47,13 @@ const Menu = ({
             )}
           </Navbar.Toggle>
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto ">
+            <Nav className="ms-auto">
               {usuarioLogueado !== "" ? (
                 <>
-                  {usuarioLogueado.rol === "admin" && (
-                    <NavLink href="#link" to="/administrar">
-                      <button className="admin me-3 mt-2 mb-3">
-                        Administrar
-                      </button>
-                    </NavLink>
-                  )}
+                  
 
                   <img
-                    className="imgPerfil img-fluid"
+                    className="imgPerfil img-fluid mt-3"
                     src={usuarioLogueado.imagenPerfil}
                     alt=""
                     width={50}
@@ -67,11 +62,20 @@ const Menu = ({
                   <NavDropdown
                     title={usuarioLogueado.nombreUsuario}
                     id="collapsible-nav-dropdown"
+                    className='m-lg-auto'
                   >
                     <NavLink end className="nav-link" to="/perfil">
-                    <i className="bi bi-person-fill-gear"> Perfil</i>
+                    <i className="bi bi-person-vcard-fill"> Perfil</i>
+                    
                    
                     </NavLink>
+                    {usuarioLogueado.rol === "admin" && (
+                    <NavLink href="#link" className="nav-link" to="/administrar">
+                      <i className="bi bi-person-fill-gear"> Administrar usuarios </i>
+                        
+                    
+                    </NavLink>
+                  )}
                     <NavLink className="nav-link" onClick={cerrarSesion}>
                       <i className="bi bi-power"> Cerrar sesión</i>
                     </NavLink>
@@ -94,12 +98,7 @@ const Menu = ({
         </Container>
       </Navbar>
 
-      <InicioSesion
-        show={showLoginModal}
-        onHide={handleCloseLoginModal}
-        setUsuarioLogueado={setUsuarioLogueado}
-        usuarioLogueado={usuarioLogueado}
-      ></InicioSesion>
+     
     </>
   );
 };

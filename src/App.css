@@ -7,8 +7,8 @@
 .mainPage {
   flex-grow: 1;
 }
-.list-group-item{
- height: auto;
+.list-group-item {
+  height: auto;
 }
 
 #collapsible-nav-dropdown {
@@ -29,7 +29,7 @@
   height: 45px;
   padding: 8px;
   border-radius: 5px;
-  border: 2.5px solid #E0E1E4;
+  border: 2.5px solid #e0e1e4;
   box-shadow: 0px 0px 20px -20px;
   cursor: pointer;
   background-color: white;
@@ -42,15 +42,15 @@
 }
 
 .sesion:hover {
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   box-shadow: 0px 0px 20px -18px;
 }
 
 .sesion:active {
   transform: scale(0.95);
 }
- /* btn adminstrar */
- .admin {
+/* btn adminstrar */
+.admin {
   font-size: 16px;
   color: #e1e1e1;
   font-family: inherit;
@@ -106,47 +106,46 @@
   letter-spacing: 0.08rem;
   width: 200px;
   margin-left: 10px;
- }
- 
- .button:hover,
- .button:focus {
+}
+
+.button:hover,
+.button:focus {
   background: linear-gradient(117deg, rgb(248, 137, 73), rgb(248, 82, 49));
   box-shadow: 0 0.1rem 0.8rem rgb(254, 100, 70);
- }
+}
 
- /* input */
- .inputTarea {
+/* input */
+.inputTarea {
   border: none;
   outline: none;
   border-radius: 15px;
   padding: 1em;
-  
-  box-shadow: inset 2px 5px 10px rgba(0,0,0,0.3);
+
+  box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
   transition: 300ms ease-in-out;
 }
 
 .inputTarea:focus {
   background-color: white;
   transform: scale(1.017);
-  box-shadow: 13px 13px 50px #969696,
-             -13px -13px 50px #ffffff;
+  box-shadow: 13px 13px 50px #969696, -13px -13px 50px #ffffff;
 }
 
 /* input tarea */
-.inputTarea{
+.inputTarea {
   border: 1px solid black;
 }
 
-
 .error {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #EF665B;
+  background: #ef665b;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
 }
@@ -179,10 +178,6 @@
   fill: #fff;
 }
 
-/* form regidtro */
-
-
-
 .imgPerfil {
   border-radius: 50%;
   width: 50px;
@@ -190,29 +185,23 @@
   object-fit: cover;
 }
 
-.imagenPerfil{
+.imagenPerfil {
   width: 200px;
   height: 200px;
   object-fit: cover;
   border-radius: 50%;
 }
 
-
-
 .p-2 {
   padding: 0.5rem;
 }
 
-
-
 .btnEditarFotoPerfil {
   width: 40px;
   border-radius: 50%;
- 
 }
 
-
-/* From Uiverse.io by VassoD */ 
+/* From Uiverse.io by VassoD */
 .buttonSesion {
   cursor: pointer;
   background: rgba(255, 255, 255, 0.15);
@@ -227,4 +216,89 @@
 .buttonSesion:hover {
   background: rgba(255, 255, 255, 0.25);
   text-decoration: underline;
+}
+
+.form {
+  --bg-light: #efefef;
+  --bg-dark: #707070;
+  --clr: #58bc82;
+  --clr-alpha: #9c9c9c60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.form .input-span {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.form select[type="select"],
+.form input[type="date"],
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"] {
+  border-radius: 0.5rem;
+  padding: 1rem 0.75rem;
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--clr-alpha);
+  outline: 2px solid var(--bg-dark);
+}
+
+.form select[type="select"],
+.form input[type="date"],
+.form input[type="text"],
+.form input[type="email"]:focus,
+.form input[type="password"]:focus {
+  outline: 2px solid var(--clr);
+}
+
+.label {
+  align-self: flex-start;
+  color: var(--clr);
+  font-weight: 600;
+}
+
+.form .submit {
+  padding: 1rem 0.75rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 3rem;
+  background-color: var(--bg-dark);
+  color: var(--bg-light);
+  border: none;
+  cursor: pointer;
+  transition: all 300ms;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form .submit:hover {
+  background-color: var(--clr);
+  color: var(--bg-dark);
+}
+
+.span {
+  text-decoration: none;
+  color: var(--bg-dark);
+}
+
+.span a {
+  color: var(--clr);
+}
+
+.form-control,
+.form-select {
+  color: white;
 }

@@ -10,12 +10,14 @@ import {
   obtenerUsuarioAPI,
   actualizarFotoPerfilAPI,
 } from "../../../helpers/usuario.queries";
+import { Link, useNavigate } from "react-router-dom";
 
 const PerfilUsuario = ({ usuarioLogueado, setUsuarioLogueado }) => {
   const [show, setShow] = useState(false);
   const [usuario, setUsuario] = useState({});
   const [editando, setEditando] = useState(false);
   const [fotoPerfil, setFotoPerfil] = useState();
+  const navegacion = useNavigate();
   const {
     register,
     handleSubmit,
@@ -26,6 +28,9 @@ const PerfilUsuario = ({ usuarioLogueado, setUsuarioLogueado }) => {
 
   useEffect(() => {
     cargarDatosUsuario();
+    if (!usuarioLogueado) {
+      navegacion("/");
+    }
   }, [show, usuarioLogueado]);
 
   const cargarDatosUsuario = async () => {
@@ -100,10 +105,6 @@ const PerfilUsuario = ({ usuarioLogueado, setUsuarioLogueado }) => {
     setShow(true);
   };
 
-
-
- 
-
   const handleFotoPerfilChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -123,13 +124,13 @@ const PerfilUsuario = ({ usuarioLogueado, setUsuarioLogueado }) => {
             ...usuarioLogueado,
             imagenPerfil: usuarioActualizado.result.imagenPerfil,
           };
-         setUsuarioLogueado(usuarioConFotoActualizada)
+          setUsuarioLogueado(usuarioConFotoActualizada);
           sessionStorage.setItem(
             "usuarioTareaFacil",
             JSON.stringify(usuarioConFotoActualizada)
           );
-         
-console.log(usuarioActualizado.result.imagenPerfil)
+
+          console.log(usuarioActualizado.result.imagenPerfil);
           Swal.fire({
             title: "Foto de perfil actualizada!",
             text: `La foto de perfil fue actualizada correctamente`,
@@ -154,8 +155,10 @@ console.log(usuarioActualizado.result.imagenPerfil)
   };
 
   return (
-    <>
-      <Card className="my-5 p-4">
+    <> 
+    <h3 className="text-white mt-5 ">Administrar Perfil</h3>
+    <hr className="text-white"/>
+      <Card className="my-4 p-4">
         <Row>
           <Col md={6}>
             <div className="d-flex justify-content-center mt-4 position-relative">
@@ -195,13 +198,24 @@ console.log(usuarioActualizado.result.imagenPerfil)
 
               <ListGroup className="list-group-flush">
                 <ListGroup.Item>
-                 <strong>Nombre de Usuario: </strong>{usuario.nombreUsuario}
+                  <strong>Nombre de Usuario: </strong>
+                  {usuario.nombreUsuario}
                 </ListGroup.Item>
-                <ListGroup.Item><strong>Email: </strong>{usuario.email}</ListGroup.Item>
-                <ListGroup.Item><strong>Rol: </strong>{usuario.rol}</ListGroup.Item>
-                <ListGroup.Item><strong>Genero: </strong>{usuario.genero}</ListGroup.Item>
                 <ListGroup.Item>
-                <strong>Fecha de nacimiento: </strong>{usuario.fechaNacimiento}
+                  <strong>Email: </strong>
+                  {usuario.email}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Rol: </strong>
+                  {usuario.rol}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Genero: </strong>
+                  {usuario.genero}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Fecha de nacimiento: </strong>
+                  {usuario.fechaNacimiento}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>

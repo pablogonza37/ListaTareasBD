@@ -17,6 +17,15 @@ const FilaUsuario = ( {usuario, setUsuarios, token} ) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const respuesta = await borrarUsuarioAPI(usuario._id, token);
+        if (respuesta === 498) {
+          Swal.fire({
+            title: "Sesión expirada!",
+            text: `Por favor vuelva a iniciar sesión`,
+            icon: "error",
+          });
+          setUsuarioLogueado("");
+          navegacion("/");
+        }
         if (respuesta.status === 200) {
           Swal.fire({
             title: "Usuario Eliminado",
@@ -25,6 +34,15 @@ const FilaUsuario = ( {usuario, setUsuarios, token} ) => {
           });
 
           const listaUsuarios = await leerUsuariosAPI(token);
+          if (respuesta === 498) {
+            Swal.fire({
+              title: "Sesión expirada!",
+              text: `Por favor vuelva a iniciar sesión`,
+              icon: "error",
+            });
+            setUsuarioLogueado("");
+            navegacion("/");
+          }
           setUsuarios(listaUsuarios);
         } else {
           Swal.fire({
@@ -53,8 +71,26 @@ const FilaUsuario = ( {usuario, setUsuarios, token} ) => {
         let respuesta;
         if (usuario.habilitado) {
           respuesta = await suspenderUsuarioAPI(usuario._id, token); 
+          if (respuesta === 498) {
+            Swal.fire({
+              title: "Sesión expirada!",
+              text: `Por favor vuelva a iniciar sesión`,
+              icon: "error",
+            });
+            setUsuarioLogueado("");
+            navegacion("/");
+          }
         } else {
           respuesta = await levantarSuspensionUsuarioAPI(usuario._id, token);
+          if (respuesta === 498) {
+            Swal.fire({
+              title: "Sesión expirada!",
+              text: `Por favor vuelva a iniciar sesión`,
+              icon: "error",
+            });
+            setUsuarioLogueado("");
+            navegacion("/");
+          }
         }
         if (respuesta.status === 200) {
           Swal.fire({
@@ -64,6 +100,15 @@ const FilaUsuario = ( {usuario, setUsuarios, token} ) => {
           });
 
           const listaUsuarios = await leerUsuariosAPI(token);
+          if (respuesta === 498) {
+            Swal.fire({
+              title: "Sesión expirada!",
+              text: `Por favor vuelva a iniciar sesión`,
+              icon: "error",
+            });
+            setUsuarioLogueado("");
+            navegacion("/");
+          }
           setUsuarios(listaUsuarios);
         } else {
           Swal.fire({
